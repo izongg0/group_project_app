@@ -20,7 +20,8 @@ class App extends GetView<BottomNavController> {
     return GetMaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
         const Locale('ko', 'KR'),

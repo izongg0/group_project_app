@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:group_project/Component/home_work_widget.dart';
-import 'package:group_project/Component/team_widget.dart';
+import 'package:group_project/component/home_work_widget.dart';
+import 'package:group_project/component/team_widget.dart';
 import 'package:group_project/page/addteam.dart';
 import 'package:group_project/page/myworklist.dart';
 

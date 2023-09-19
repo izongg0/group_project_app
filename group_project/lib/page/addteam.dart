@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:group_project/Component/purple_button.dart';
+import 'package:group_project/component/purple_button.dart';
 import 'package:group_project/page/home.dart';
 
 class AddTeam extends StatefulWidget {

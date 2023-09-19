@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:group_project/Component/work_widget.dart';
+import 'package:group_project/component/work_widget.dart';
 
 class MyWorkList extends StatelessWidget {
   const MyWorkList({super.key});

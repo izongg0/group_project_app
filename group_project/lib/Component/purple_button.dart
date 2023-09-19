@@ -16,7 +16,7 @@ class PurpleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         // height: 65,
-        width: 400,
+        width: buttonWidth,
         decoration: BoxDecoration(
             color: Color(0xffE6E7FB),
             boxShadow: [
