@@ -5,8 +5,10 @@ class Alarm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Alarm"),
+    return Center(
+      child: Container(
+        child: Image.asset('assets/teamPlanner.png',width: 200,),
+      ),
     );
   }
 }

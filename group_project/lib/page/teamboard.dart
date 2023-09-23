@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:group_project/component/board_item.dart';
+import 'package:group_project/page/addpost.dart';
 
 class TeamBoard extends StatelessWidget {
   const TeamBoard({super.key});
@@ -32,7 +33,8 @@ class TeamBoard extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('팀 이름'),
+                      SizedBox(height: 10,),
+                      Text('팀 이름',style: TextStyle(fontSize: 17),),
                       SizedBox(
                         height: 30,
                       ),
@@ -69,7 +71,10 @@ class TeamBoard extends StatelessWidget {
               right: 13,
               bottom: 50,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+
+                  Navigator.push(context,MaterialPageRoute(builder: (_)=>AddPost()));
+                },
                 icon: Icon(Icons.add_box_outlined),
                 iconSize: 35,
               ))

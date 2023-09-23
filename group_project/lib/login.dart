@@ -1,11 +1,49 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_project/app.dart';
 import 'package:group_project/main.dart';
 import 'package:group_project/signup.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+import 'model/userDTO.dart';
+
+class Login extends StatefulWidget {
+   Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+    final _inputEmailController = TextEditingController();
+
+  final _inputPwdController = TextEditingController();
+
+void login() async {
+   try {
+                  UserCredential userCredential = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _inputEmailController.text,
+                          password: _inputPwdController.text) //아이디와 비밀번호로 로그인 시도
+                      .then((value) {
+                    print(value);
+                    value.user!.emailVerified == true //이메일 인증 여부
+                        ? Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => App()))
+                        : print('이메일 확인 안댐');
+                    return value;
+                  });
+                } on FirebaseAuthException catch (e) {
+                  //로그인 예외처리
+                  if (e.code == 'user-not-found') {
+                    print('등록되지 않은 이메일입니다');
+                  } else if (e.code == 'wrong-password') {
+                    print('비밀번호가 틀렸습니다');
+                  } else {
+                    print(e.code);
+                  }
+                }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +54,10 @@ class Login extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "LOGO",
+              "TeamPlanner",
               style: TextStyle(
                   color: Color(0xff8875FF),
-                  fontSize: 45,
+                  fontSize: 35,
                   fontWeight: FontWeight.w900),
             ),
             SizedBox(
@@ -43,6 +81,7 @@ class Login extends StatelessWidget {
               height: 30,
               width: 300,
               child: TextField(
+                controller: _inputEmailController,
                 decoration: InputDecoration(border: InputBorder.none),
               ),
             ),
@@ -67,6 +106,7 @@ class Login extends StatelessWidget {
               height: 30,
               width: 300,
               child: TextField(
+                controller: _inputPwdController,
                 decoration: InputDecoration(border: InputBorder.none),
               ),
             ),
@@ -75,8 +115,7 @@ class Login extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => App()));
+                 login();
                 },
                 child: Text('로그인'),
                 style: ElevatedButton.styleFrom(

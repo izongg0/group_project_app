@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:group_project/component/popup_widget.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
+import 'package:group_project/page/groupwork.dart';
 import 'package:group_project/page/teamboard.dart';
+
+import 'home.dart';
 
 class TeamHome extends StatefulWidget {
   const TeamHome({super.key});
@@ -33,7 +37,16 @@ class _TeamHomeState extends State<TeamHome> {
               offset: Offset(0, 1), // changes position of shadow
             ),
           ], borderRadius: BorderRadius.circular(10), color: Colors.white),
-          child: Padding(padding: const EdgeInsets.all(8.0), child: Text('')),
+          child: Padding(padding: const EdgeInsets.all(8.0), child: Column(
+
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('- 정기회의 : 매주 화요일 오후 10시'),
+
+                            Text('- 화상회의 주소 : https://apps.google.com/intl/ko/intl/ko_ALL/meet/'),
+
+            ],
+          )),
         )
       ],
     );
@@ -59,7 +72,7 @@ class _TeamHomeState extends State<TeamHome> {
                       child: ProfileImage(
                         animal: 'cat',
                         type: ProfileType.TYPE2,
-                        nickname: 'izongg',
+                        nickname: '홍길동',
                       ),
                     ))
           ],
@@ -73,7 +86,8 @@ class _TeamHomeState extends State<TeamHome> {
       children: [
         PurpleButton(
           ontap: () {
-            Navigator.push(context,MaterialPageRoute(builder: (_)=> TeamBoard()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => TeamBoard()));
           },
           buttonText: '게시판',
           buttonWidth: 400,
@@ -81,17 +95,43 @@ class _TeamHomeState extends State<TeamHome> {
         SizedBox(
           height: 15,
         ),
-        PurpleButton(ontap: () {}, buttonText: '과업', buttonWidth: 400),
+        PurpleButton(
+            ontap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => GroupWork()));
+            },
+            buttonText: '과업',
+            buttonWidth: 400),
         SizedBox(
           height: 15,
         ),
         Row(
           children: [
-          Expanded(child: PurpleButton(ontap: (){}, buttonText: '팀 나가기', buttonWidth: 100)),
-          SizedBox(width: 20,),
-                    Expanded(child: PurpleButton(ontap: (){}, buttonText: '과제 종료', buttonWidth: 100))
-
-        ],)
+            Expanded(
+                child: PurpleButton(
+                    ontap: () {}, buttonText: '팀 나가기', buttonWidth: 100)),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+                child: PurpleButton(
+                    ontap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => PopupWidget(
+                              content: '과제를 종료하시겠습니까?',
+                              okfunc: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (_) => Home()));
+                              },
+                              nofunc: () {
+                                Navigator.pop(context);
+                              }));
+                    },
+                    buttonText: '과제 종료',
+                    buttonWidth: 100))
+          ],
+        )
       ],
     );
   }
@@ -106,7 +146,7 @@ class _TeamHomeState extends State<TeamHome> {
         elevation: 0,
         backgroundColor: Color(0xffF9F8F8),
         title: Text(
-          '팀 이름',
+          '기술경영 2분반 5조',
           style: TextStyle(color: Colors.black, fontSize: 17),
         ),
         centerTitle: true,

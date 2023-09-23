@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:group_project/component/purple_button.dart';
 import 'package:group_project/page/home.dart';
 
+import '../component/popup_widget.dart';
+
 class AddTeam extends StatefulWidget {
   const AddTeam({super.key});
 
@@ -214,14 +216,26 @@ class _AddTeamState extends State<AddTeam> {
             SizedBox(
               height: 15,
             ),
-            PurpleButton(
-              ontap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Home()));
-              },
-              buttonText: '생성',
-              buttonWidth: 100,
-              buttonHeight: 25,
+            Align(
+              alignment: Alignment.center,
+              child: PurpleButton(
+                ontap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => PopupWidget(
+                          content: '생성 하시겠습니까?',
+                          okfunc: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) => Home()));
+                          },
+                          nofunc: () {
+                            Navigator.pop(context);
+                          }));
+                },
+                buttonText: '생성',
+                buttonWidth: 100,
+                buttonHeight: 35,
+              ),
             )
           ],
         ),

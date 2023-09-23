@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -9,19 +11,20 @@ import 'binding/initbinding.dart';
 import 'controller/nav_controller.dart';
 
 void main() {
-  runApp(const App());
+  runApp(App());
 }
 
 class App extends GetView<BottomNavController> {
-  const App({super.key});
+  App({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
         const Locale('ko', 'KR'),
@@ -45,15 +48,15 @@ class App extends GetView<BottomNavController> {
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home),
                       activeIcon: Icon(Icons.home),
-                      label: 'aaaa'),
+                      label: 'Home'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      activeIcon: Icon(Icons.home),
-                      label: 'bbbb'),
+                      icon: Icon(Icons.alarm),
+                      activeIcon: Icon(Icons.alarm),
+                      label: 'Alarm'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      activeIcon: Icon(Icons.home),
-                      label: 'cccc')
+                      icon: Icon(Icons.person),
+                      activeIcon: Icon(Icons.person),
+                      label: 'Mypage')
                 ]),
           )),
     );

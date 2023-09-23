@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "295195359962",
+    "project_id": "team-planner-odin-lab",
+    "storage_bucket": "team-planner-odin-lab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295195359962:android:59ab295fb33613074443e3",
+        "android_client_info": {
+          "package_name": "com.example.group_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5vpL5OGkRdAHez892GUgizkRdJUm29eA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

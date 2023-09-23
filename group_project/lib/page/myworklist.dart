@@ -18,7 +18,7 @@ class MyWorkList extends StatelessWidget {
       ),
       body: Column(children: [
         SizedBox(height: 10,),
-        ...List.generate(3, (index) => WorkCard(teamName: '기술경영', description: '기술경영 ahpdㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ', startDate: '9/5', endDate: '9.25'))
+        ...List.generate(3, (index) => WorkCard(teamName: '기술경영', description: '기술경영 ahpdㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ', startDate: '9/5', endDate: '9.25',workType: WorkType.MY_WORK,))
       ]),
     );
   }
