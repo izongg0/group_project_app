@@ -1,3 +1,9 @@
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:group_project/model/teamDTO.dart';
+
 class UserDTO {
   String? uid;
   String? email;
@@ -60,7 +66,6 @@ class UserDTO {
     String? major,
     String? classnum,
     bool? emailVerified,
-    
     List<String>? teams, // 팀 정보를 저장하는 리스트 필드 추가
   }) {
     return UserDTO(
@@ -72,7 +77,11 @@ class UserDTO {
       major: major?? this.major,
       classnum: classnum?? this.classnum,
       emailVerified: emailVerified ?? this.emailVerified,
-      teams: teams ?? this.teams, // 팀 정보를 저장하는 리스트 필드 추가
+      teams: teams ?? this.teams, 
     );
   }
 }
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+

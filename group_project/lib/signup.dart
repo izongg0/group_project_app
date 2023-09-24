@@ -29,6 +29,8 @@ class _SignupState extends State<Signup> {
   final _inputClassnumController = TextEditingController();
 
   String imgNum = 'assets/default_img.png';
+  
+
 
 // Firestore에 사용자 정보 추가 함수
   void addUserDataToFirestore(User user) async {

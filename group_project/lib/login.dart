@@ -7,6 +7,14 @@ import 'package:group_project/signup.dart';
 
 import 'model/userDTO.dart';
 
+// 이메일 
+// izongg@naver.com 
+// whdgns4608@gmail.com
+// whdgnsqwe@naver.com
+
+// 비밀번호 : aaaaaa!
+
+
 class Login extends StatefulWidget {
    Login({super.key});
 

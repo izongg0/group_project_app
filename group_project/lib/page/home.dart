@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/component/home_work_widget.dart';
 import 'package:group_project/component/team_widget.dart';
+import 'package:group_project/controller/addteam_controller.dart';
 import 'package:group_project/page/addteam.dart';
 import 'package:group_project/page/myworklist.dart';
+
+import '../repository/user_repo.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -22,6 +26,7 @@ class _HomeState extends State<Home> {
               Text('나의 할일'),
               IconButton(
                   onPressed: () {
+                    // UserRepo.getYourTeams();
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => MyWorkList()));
                   },
@@ -33,7 +38,11 @@ class _HomeState extends State<Home> {
           ),
           ...List.generate(
               3,
-              (index) => HomeWordWidget(teamName: '기술경영 2분반 5조', description: '기술경영 ahp 과제 보고서 작성', startDate: '9/14', endDate: '9/26'))
+              (index) => HomeWordWidget(
+                  teamName: '기술경영 2분반 5조',
+                  description: '기술경영 ahp 과제 보고서 작성',
+                  startDate: '9/14',
+                  endDate: '9/26'))
         ],
       ),
     );
@@ -48,8 +57,7 @@ class _HomeState extends State<Home> {
             Text('팀'),
             IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => AddTeam()));
+                  Get.to(AddTeam());
                 },
                 icon: Icon(Icons.add_box_outlined)),
           ],
@@ -78,10 +86,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal:30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(
             height: 80,
           ),
