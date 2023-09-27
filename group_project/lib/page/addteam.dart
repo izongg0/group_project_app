@@ -9,12 +9,12 @@ import 'package:group_project/page/home.dart';
 import 'package:group_project/repository/team_repo.dart';
 import 'package:group_project/repository/user_repo.dart';
 
+import '../app.dart';
 import '../component/popup_widget.dart';
 
 class AddTeam extends GetView<AddTeamController> {
   AddTeam({super.key});
 
-  // DateTime _selectedDate = DateTime.now(); // 이거사용
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddTeamController());
@@ -26,6 +26,11 @@ class AddTeam extends GetView<AddTeamController> {
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
+          // leading: GestureDetector(
+          //     onTap: () {
+          //       Get.to(App());
+          //     },
+          //     child: Icon(Icons.arrow_back_ios)),
           elevation: 0,
           backgroundColor: Color(0xffF9F8F8),
           title: Text(
@@ -216,7 +221,7 @@ class AddTeam extends GetView<AddTeamController> {
                                   delectMember: () {
                                     controller.uidList.remove(
                                         controller.items.value[index].uid);
-        
+
                                     controller.items
                                         .remove(controller.items.value[index]);
                                   },
@@ -233,7 +238,7 @@ class AddTeam extends GetView<AddTeamController> {
                       await controller.ismake();
                     },
                     buttonText: '생성',
-                    buttonWidth: Get.width*0.75,
+                    buttonWidth: Get.width * 0.75,
                     buttonHeight: 35,
                   ),
                 )

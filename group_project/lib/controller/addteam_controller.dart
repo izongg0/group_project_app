@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:group_project/app.dart';
+import 'package:group_project/controller/home_controller.dart';
 
 import '../component/popup_widget.dart';
 import '../model/teamDTO.dart';
@@ -110,17 +112,18 @@ class AddTeamController extends GetxController {
             okfunc: () async {
               print(items);
               var teamData = TeamDTO(
-                  uid: auth.currentUser?.uid,
+                  masterUid: auth.currentUser?.uid,
                   teamName: inputTeamNameController.text,
                   description: inputDesController.text,
                   startDate: selectedDate.value,
                   endDate: endSelectedDate.value,
-                  members: uidList
-                  );
+                  members: uidList);
 
               await TeamRepo.addTeam(teamData);
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => Home()));
+              Navigator.pop(context);
+              
+
+              Get.until((route) => Get.currentRoute == '/');
             },
             nofunc: () {
               Navigator.pop(context);

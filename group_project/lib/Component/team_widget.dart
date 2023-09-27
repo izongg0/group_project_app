@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:group_project/page/teamhome.dart';
+import 'package:intl/intl.dart';
 
 class TeamCard extends StatelessWidget {
   final String teamName;
   final String description;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String teamUid;
 
   const TeamCard(
       {super.key,
       required String this.teamName,
       required String this.description,
-      required String this.startDate,
-      required String this.endDate});
+      required DateTime this.startDate,
+      required DateTime this.endDate,
+      required String this.teamUid});
 
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(right: 16),
         width: 200,
-        height: 260,
+        height: 270,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -29,14 +32,21 @@ class TeamCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Text(teamUid),
               Text(teamName),
               SizedBox(
                 height: 10,
               ),
-              Container(height: 110, child: Text(description)),
-              Text('$startDate ~ $endDate'),
+              Container(height: 110, child: Text(description)),SizedBox(
+                height: 10,
+              ),
+              Text('${DateFormat('yyyy-MM-dd').format(startDate)} ~ ',style: TextStyle(fontSize: 14),),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text('${DateFormat('yyyy-MM-dd').format(endDate)}',style: TextStyle(fontSize: 14),)),
+
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               SizedBox(
                 width: 250,

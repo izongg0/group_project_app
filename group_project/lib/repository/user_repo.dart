@@ -21,25 +21,38 @@ class UserRepo {
         .toList();
   }
 
+// 자기가 속해있는 팀 리스트를 가져오는 함수
+  static Future<Map<String,TeamDTO>> getYourTeams() async {
 
-
-
-
-  // static Future<void> getYourTeams() async {
-  //   try {
-  //     // 'teams' 컬렉션에서 'members' 배열에 본인의 UID가 포함된 문서를 쿼리합니다.
-  //     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-  //         .collection('teams')
-  //         .where('members', arrayContains: auth.currentUser!.uid)
-  //         .get();
-
-  //     // 쿼리 결과를 반복하면서 팀 정보를 가져옵니다.
+     // 'teams' 컬렉션에서 'members' 배열에 본인의 UID가 포함된 문서를 쿼리합니다.
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('teams')
+          .where('members', arrayContains: auth.currentUser!.uid)
+          .get();
+      // List<TeamDTO> teamList = [];
+      Map<String,TeamDTO> teamMap ={};
+      // List<String> teamUidList = [];
+      // List<dynamic> teamSet = [teamList,teamUidList];
+      for (var doc in querySnapshot.docs) {
+        var transdata = TeamDTO.DtofromJson(
+          
+            doc as QueryDocumentSnapshot<Map<String, dynamic>>);
+            teamMap[doc.id] = transdata;
+        // teamList.add(transdata);
+        // print(teamList);
+        
+      }
+      print(teamMap);
+      return teamMap;
+    // try {
      
 
-  //     // 본인의 팀 목록을 사용할 수 있습니다.
-  //     // print(yourTeams);
-  //   } catch (e) {
-  //     print('Error getting teams: $e');
-  //   }
-  // }
+
+    // } catch (e) {
+    //   print('Error getting teams: $e');
+    
+    // }
+    
+  }
+  
 }

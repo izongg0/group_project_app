@@ -33,7 +33,7 @@ class App extends GetView<BottomNavController> {
       home: Obx(() => Scaffold(
             body: IndexedStack(
                 index: controller.pageIndex.value,
-                children: const [Home(), Alarm(), Mypage()]),
+                children:  [Home(), Alarm(), Mypage()]),
             bottomNavigationBar: BottomNavigationBar(
                 selectedItemColor: Color(0xffB2B2FF),
                 onTap: controller.changeBottomNav,

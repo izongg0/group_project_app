@@ -3,19 +3,18 @@ import 'package:get/get.dart';
 import 'package:group_project/component/home_work_widget.dart';
 import 'package:group_project/component/team_widget.dart';
 import 'package:group_project/controller/addteam_controller.dart';
+import 'package:group_project/controller/home_controller.dart';
+import 'package:group_project/model/teamDTO.dart';
 import 'package:group_project/page/addteam.dart';
 import 'package:group_project/page/myworklist.dart';
 
 import '../repository/user_repo.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Home extends GetView<HomeController> {
+  Home({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
+  var controller = Get.put(HomeController());
 
-class _HomeState extends State<Home> {
   Widget _myWork() {
     return Container(
       child: Column(
@@ -26,9 +25,7 @@ class _HomeState extends State<Home> {
               Text('나의 할일'),
               IconButton(
                   onPressed: () {
-                    // UserRepo.getYourTeams();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => MyWorkList()));
+                    Get.to(MyWorkList());
                   },
                   icon: Icon(Icons.more_horiz)),
             ],
@@ -48,7 +45,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _myTeam() {
+  Widget _myTeam(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -56,8 +53,23 @@ class _HomeState extends State<Home> {
           children: [
             Text('팀'),
             IconButton(
-                onPressed: () {
-                  Get.to(AddTeam());
+                onPressed: () async {
+                  Get.delete<HomeController>();
+
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddTeam()),
+                  );
+
+                  // 다시 이전 페이지로 돌아왔을 때의 처리 (예: 결과 출력)
+                  if (result == null) {
+                    controller = Get.put(HomeController(),
+                        // 앱이 종료되기 전까지 이 인스턴스는 살아있음.
+                        permanent: false);
+                    print('aaaa');
+                  } else {}
+
+                  // Get.to(AddTeam());
                 },
                 icon: Icon(Icons.add_box_outlined)),
           ],
@@ -66,24 +78,38 @@ class _HomeState extends State<Home> {
           height: 8,
         ),
         SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(horizontal: 12), // 시작부분
-          child: Row(
-              children: List.generate(
-                  4,
-                  (index) => TeamCard(
-                        teamName: '기술경영 ',
-                        description: '기술경영 ahp팀플 과제 입니다.',
-                        startDate: '9/9',
-                        endDate: '9/26',
-                      )).toList()), // 데이터 모델 만들어서 객체 넘기는게 좋지만 의존성을 낮추기 위해 안함
-        ),
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(horizontal: 12), // 시작부분
+            child: Obx(
+              () => Row(
+                  children: List.generate(
+                          controller.myTeamMap.value.values.toList().length,
+                          (index) => TeamCard(
+                                teamName: controller.myTeamMap.value.values
+                                    .toList()[index]
+                                    .teamName!,
+                                description: controller.myTeamMap.value.values
+                                    .toList()[index]
+                                    .description!,
+                                startDate: controller.myTeamMap.value.values
+                                    .toList()[index]
+                                    .startDate!,
+                                endDate: controller.myTeamMap.value.values
+                                    .toList()[index]
+                                    .endDate!,
+                                teamUid: controller.myTeamMap.value.keys
+                                    .toList()[index],
+                              ))
+                      .toList()), // 데이터 모델 만들어서 객체 넘기는게 좋지만 의존성을 낮추기 위해 안함
+            )),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    print('홈 빌드');
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -105,7 +131,7 @@ class _HomeState extends State<Home> {
           SizedBox(
             height: 10,
           ),
-          _myTeam()
+          _myTeam(context)
         ]),
       ),
     );
