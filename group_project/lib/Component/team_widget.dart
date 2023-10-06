@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/page/teamhome.dart';
 import 'package:intl/intl.dart';
+
+import '../controller/home_controller.dart';
+import '../model/teamDTO.dart';
 
 class TeamCard extends StatelessWidget {
   final String teamName;
   final String description;
   final DateTime startDate;
   final DateTime endDate;
+  final TeamDTO thisTeam;
   final String teamUid;
 
-  const TeamCard(
-      {super.key,
-      required String this.teamName,
-      required String this.description,
-      required DateTime this.startDate,
-      required DateTime this.endDate,
-      required String this.teamUid});
+  const TeamCard({
+    super.key,
+    required this.teamName,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+    required this.thisTeam,
+    required this.teamUid,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +44,20 @@ class TeamCard extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Container(height: 110, child: Text(description)),SizedBox(
+              Container(height: 110, child: Text(description)),
+              SizedBox(
                 height: 10,
               ),
-              Text('${DateFormat('yyyy-MM-dd').format(startDate)} ~ ',style: TextStyle(fontSize: 14),),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Text('${DateFormat('yyyy-MM-dd').format(endDate)}',style: TextStyle(fontSize: 14),)),
+              Text(
+                '${DateFormat('yyyy-MM-dd').format(startDate)} ~ ',
+                style: TextStyle(fontSize: 14),
+              ),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '${DateFormat('yyyy-MM-dd').format(endDate)}',
+                    style: TextStyle(fontSize: 14),
+                  )),
 
               SizedBox(
                 height: 10,
@@ -55,8 +69,9 @@ class TeamCard extends StatelessWidget {
                     style: TextButton.styleFrom(
                         backgroundColor: Color(0xffE6E7FB)),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => TeamHome()));
+                      Get.to(TeamHome());
+                              Get.find<HomeController>().teamMember.value = thisTeam.members!;
+
                     },
                     child: Text(
                       '입장하기',

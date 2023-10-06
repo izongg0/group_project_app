@@ -42,6 +42,23 @@ class UserDTO {
       teams: json['teams'] == null ? [] : List<String>.from(json['teams']),
     );
   }
+  factory UserDTO.DtofromJson(
+      QueryDocumentSnapshot<Map<String, dynamic>> json) {
+    return UserDTO(
+      uid: json['uid'] == null ? '' : json['uid'] as String,
+      email: json['email'] == null ? '' : json['email'] as String,
+      userName: json['userName'] == null ? '' : json['userName'] as String,
+      thumbnail: json['thumbnail'] == null ? '' : json['thumbnail'] as String,
+      school: json['school'] == null ? '' : json['school'] as String,
+      major: json['major'] == null ? '' : json['major'] as String,
+      classnum: json['classnum'] == null ? '' : json['classnum'] as String,
+      emailVerified:
+          json['emailVerified'] == null ? false : json['emailVerified'] as bool,
+      teams: json['teams'] == null ? [] : List<String>.from(json['teams']),
+    );
+  }
+
+
 
   Map<String, dynamic> toMap() {
     return {

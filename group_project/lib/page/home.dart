@@ -9,6 +9,7 @@ import 'package:group_project/page/addteam.dart';
 import 'package:group_project/page/myworklist.dart';
 
 import '../repository/user_repo.dart';
+import 'teamhome.dart';
 
 class Home extends GetView<HomeController> {
   Home({super.key});
@@ -97,8 +98,11 @@ class Home extends GetView<HomeController> {
                                 endDate: controller.myTeamMap.value.values
                                     .toList()[index]
                                     .endDate!,
+                                thisTeam: controller.myTeamMap.value.values
+                                    .toList()[index],
                                 teamUid: controller.myTeamMap.value.keys
                                     .toList()[index],
+                             
                               ))
                       .toList()), // 데이터 모델 만들어서 객체 넘기는게 좋지만 의존성을 낮추기 위해 안함
             )),

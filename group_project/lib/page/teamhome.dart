@@ -1,21 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/component/popup_widget.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
+import 'package:group_project/controller/home_controller.dart';
+import 'package:group_project/controller/teamhome_controller.dart';
 import 'package:group_project/page/groupwork.dart';
 import 'package:group_project/page/teamboard.dart';
+import 'package:group_project/repository/team_repo.dart';
 
+import '../model/teamDTO.dart';
+import '../model/userDTO.dart';
 import 'home.dart';
 
 class TeamHome extends StatefulWidget {
-  const TeamHome({super.key});
+  TeamHome({super.key});
 
   @override
   State<TeamHome> createState() => _TeamHomeState();
 }
 
 class _TeamHomeState extends State<TeamHome> {
-  Widget _notice() {
+  var controller = Get.put(HomeController());
+  List<UserDTO> memberList =[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() async { // initstate 에서 비동기작업 불가능하기때문에 이렇게 사용함
+      var thismemberList = await controller.getmembers(controller.teamMember);
+      print("sssss$memberList");
+      // setState를 호출하여 화면을 다시 그리도록 합니다.
+      setState(() {
+        memberList = thismemberList;
+      });
+    });
+  }
+
+  Widget _notice(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,22 +60,24 @@ class _TeamHomeState extends State<TeamHome> {
               offset: Offset(0, 1), // changes position of shadow
             ),
           ], borderRadius: BorderRadius.circular(10), color: Colors.white),
-          child: Padding(padding: const EdgeInsets.all(8.0), child: Column(
-
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('- 정기회의 : 매주 화요일 오후 10시'),
-
-                            Text('- 화상회의 주소 : https://apps.google.com/intl/ko/intl/ko_ALL/meet/'),
-
-            ],
-          )),
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Text('여기 팀 uid -> ${controller.myTeamMap.value.values.toList()[0].members}'),
+                  Text(
+                      '- 화상회의 주소 : https://apps.google.com/intl/ko/intl/ko_ALL/meet/'),
+                ],
+              )),
         )
       ],
     );
   }
 
-  Widget _member() {
+  Widget _member(BuildContext context) {
+    // var data = Get.arguments as TeamDTO;
+    // var memList =controller.setMembers(data.members!);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,13 +91,13 @@ class _TeamHomeState extends State<TeamHome> {
         Row(
           children: [
             ...List.generate(
-                3,
+                memberList.length,
                 (index) => Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: ProfileImage(
-                        animal: 'cat',
+                        animal: memberList[index].thumbnail!,
                         type: ProfileType.TYPE2,
-                        nickname: '홍길동',
+                        nickname: memberList[index].userName,
                       ),
                     ))
           ],
@@ -81,7 +106,7 @@ class _TeamHomeState extends State<TeamHome> {
     );
   }
 
-  Widget _buttonList() {
+  Widget _buttonList(BuildContext context) {
     return Column(
       children: [
         PurpleButton(
@@ -109,7 +134,7 @@ class _TeamHomeState extends State<TeamHome> {
           children: [
             Expanded(
                 child: PurpleButton(
-                    ontap: () {}, buttonText: '팀 나가기', buttonWidth: 100)),
+                    ontap: () async {}, buttonText: '팀 나가기', buttonWidth: 100)),
             SizedBox(
               width: 20,
             ),
@@ -158,15 +183,15 @@ class _TeamHomeState extends State<TeamHome> {
             SizedBox(
               height: 10,
             ),
-            _notice(),
+            _notice(context),
             SizedBox(
               height: 20,
             ),
-            _member(),
+            _member(context),
             SizedBox(
               height: 50,
             ),
-            _buttonList()
+            _buttonList(context)
           ],
         ),
       ),

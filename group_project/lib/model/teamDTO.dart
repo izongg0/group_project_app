@@ -8,8 +8,7 @@ class TeamDTO {
   final String? notice;
   final DateTime? startDate;
   final DateTime? endDate;
-  List<String>? members; // 팀 정보를 저장하는 리스트
-
+List<String>? members;
   TeamDTO(
       {this.masterUid,
       this.teamName,
@@ -53,6 +52,7 @@ class TeamDTO {
           json['members'] == null ? [] : List<String>.from(json['members']),
     );
   }
+
 
   // 미리 생성된 현재 로그인한 사용자의 정보가 담긴 Post객체에다가 새로 등록할 게시글의 내용을 담아주기 위해서.
   TeamDTO copyWith(

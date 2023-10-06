@@ -11,7 +11,7 @@ class Post extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileImage(animal: 'cat', type: ProfileType.TYPE1),
+            ProfileImage(animal: 'assets/cat.png', type: ProfileType.TYPE1),
             SizedBox(
               width: 20,
             ),

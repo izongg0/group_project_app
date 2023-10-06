@@ -11,7 +11,7 @@ class Mypage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ProfileImage(
-            animal: 'cat',
+            animal: 'assets/cat.png',
             type: ProfileType.TYPE2,
             nickname: 'izongg',
             width: 80,

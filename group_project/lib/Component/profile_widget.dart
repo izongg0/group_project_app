@@ -10,7 +10,7 @@ class ProfileImage extends StatelessWidget {
   ProfileImage({super.key, required this.animal, this.width = 55, required this.type,this.nickname});
 
   Widget _type1() {
-    return Image.asset('assets/${animal}.png', width: width);
+    return Image.asset('${animal}', width: width);
   }
 
   Widget _type2() {
@@ -18,7 +18,7 @@ class ProfileImage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset('assets/${animal}.png', width: width),
+          Image.asset('${animal}', width: width),
           SizedBox(height: 8,),
           Text(nickname!)
         ],

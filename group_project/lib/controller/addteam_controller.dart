@@ -23,7 +23,6 @@ class AddTeamController extends GetxController {
   TextEditingController inputTeamNameController = TextEditingController();
   TextEditingController inputDesController = TextEditingController();
   // 날짜 선택 끝
-
   RxList<UserDTO> items = RxList<UserDTO>();
   RxList<String> uidList = RxList<String>();
   TextEditingController inputMember = TextEditingController();
