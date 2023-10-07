@@ -5,6 +5,7 @@ import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
 import 'package:group_project/controller/home_controller.dart';
 import 'package:group_project/controller/teamhome_controller.dart';
+import 'package:group_project/page/addschedule.dart';
 import 'package:group_project/page/groupwork.dart';
 import 'package:group_project/page/teamboard.dart';
 import 'package:group_project/repository/team_repo.dart';
@@ -22,15 +23,16 @@ class TeamHome extends StatefulWidget {
 
 class _TeamHomeState extends State<TeamHome> {
   var controller = Get.put(HomeController());
-  List<UserDTO> memberList =[];
+  List<UserDTO> memberList = [];
+  var currentTeam = Get.arguments as TeamDTO;
 
   @override
   void initState() {
     super.initState();
 
-    Future.microtask(() async { // initstate 에서 비동기작업 불가능하기때문에 이렇게 사용함
+    Future.microtask(() async {
+      // initstate 에서 비동기작업 불가능하기때문에 이렇게 사용함
       var thismemberList = await controller.getmembers(controller.teamMember);
-      print("sssss$memberList");
       // setState를 호출하여 화면을 다시 그리도록 합니다.
       setState(() {
         memberList = thismemberList;
@@ -76,8 +78,6 @@ class _TeamHomeState extends State<TeamHome> {
   }
 
   Widget _member(BuildContext context) {
-    // var data = Get.arguments as TeamDTO;
-    // var memList =controller.setMembers(data.members!);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -122,8 +122,7 @@ class _TeamHomeState extends State<TeamHome> {
         ),
         PurpleButton(
             ontap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => GroupWork()));
+              Get.to(GroupWork(),arguments: currentTeam);
             },
             buttonText: '과업',
             buttonWidth: 400),
@@ -161,8 +160,13 @@ class _TeamHomeState extends State<TeamHome> {
     );
   }
 
+  Widget _settings() {
+    return Align(alignment: Alignment.centerRight, child: Text('관리'));
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -183,9 +187,21 @@ class _TeamHomeState extends State<TeamHome> {
             SizedBox(
               height: 10,
             ),
+            if (currentTeam.masterUid == auth.currentUser!.uid) _settings(),
             _notice(context),
             SizedBox(
-              height: 20,
+              height: 8,
+            ),
+            Align(
+                alignment: Alignment.centerRight,
+                child: PurpleButton(
+                  ontap: () {},
+                  buttonText: '수정',
+                  buttonWidth: 60,
+                  buttonHeight: 34,
+                )),
+            SizedBox(
+              height: 15,
             ),
             _member(context),
             SizedBox(

@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/component/work_widget.dart';
 import 'package:group_project/page/addschedule.dart';
 
-class GroupWork extends StatelessWidget {
-  const GroupWork({super.key});
+import '../model/teamDTO.dart';
+
+class GroupWork extends StatefulWidget {
+   GroupWork({super.key});
+
+  @override
+  State<GroupWork> createState() => _GroupWorkState();
+}
+
+class _GroupWorkState extends State<GroupWork> {
+  var getTeamData = Get.arguments as TeamDTO;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +38,7 @@ class GroupWork extends StatelessWidget {
               child: IconButton(
                 onPressed: () {
 
-                  Navigator.push(context,MaterialPageRoute(builder: (_)=>AddSchedule()));
+              Get.to(AddSchedule(),arguments: getTeamData);
                 },
                 icon: Icon(Icons.add_box_outlined),
                 iconSize: 35,

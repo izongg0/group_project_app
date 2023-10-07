@@ -4,11 +4,23 @@ import 'package:group_project/model/userDTO.dart';
 import '../model/teamDTO.dart';
 
 class TeamRepo {
+
   static Future<void> addTeam(TeamDTO teamData) async {
-    await FirebaseFirestore.instance
-        .collection('teams')
-        .doc()
-        .set(teamData.toMap());
+    var inputData = teamData.toMap();
+  final collectionReference = FirebaseFirestore.instance.collection('teams');
+
+  final documentReference = await collectionReference.add(inputData);
+  final String documentId = documentReference.id;
+  inputData['teamUid'] = documentId;
+
+  await documentReference.update(inputData);
+
+    // await FirebaseFirestore.instance
+    //     .collection('teams')
+    //     .doc()
+    //     .set(teamData.toMap());
+
+
   }
 
   // 자기가 속해있는 팀 리스트를 가져오는 함수

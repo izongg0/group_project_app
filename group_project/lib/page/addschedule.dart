@@ -1,58 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:group_project/controller/addtask_controller.dart';
+import 'package:group_project/model/userDTO.dart';
 
 import '../component/popup_widget.dart';
 import '../component/purple_button.dart';
+import '../model/teamDTO.dart';
 
-class AddSchedule extends StatefulWidget {
+class AddSchedule extends GetView<AddTaskController> {
   AddSchedule({super.key});
 
   @override
-  State<AddSchedule> createState() => _AddScheduleState();
-}
-
-class _AddScheduleState extends State<AddSchedule> {
-  DateTime _endSelectedDate = DateTime.now();
-
-  TimeOfDay endSelectedTime = TimeOfDay.now();
-
-  void unfocusKeyboard() {
-    FocusManager.instance.primaryFocus?.unfocus();
-  }
-
+  final controller = Get.put(AddTaskController());
+  var getTeamData = Get.arguments as TeamDTO;
+  
 // https://api.flutter.dev/flutter/cupertino/CupertinoDatePicker-class.html
-
-  Future<void> _endSelectDateTime(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: _endSelectedDate,
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101),
-        locale: const Locale('ko', 'KR'));
-
-    if (pickedDate != null && pickedDate != _endSelectedDate) {
-      final TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: endSelectedTime,
-      );
-
-      if (pickedTime != null) {
-        setState(() {
-          _endSelectedDate = DateTime(
-            pickedDate.year,
-            pickedDate.month,
-            pickedDate.day,
-            pickedTime.hour,
-            pickedTime.minute,
-          );
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    controller.currentTeam = getTeamData;
     return GestureDetector(
-      onTap: unfocusKeyboard,
+      onTap: controller.unfocusKeyboard,
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -88,6 +56,7 @@ class _AddScheduleState extends State<AddSchedule> {
                 height: 100,
                 width: MediaQuery.of(context).size.width,
                 child: TextField(
+                  controller: controller.inputDesController,
                   decoration: InputDecoration(border: InputBorder.none),
                 ),
               ),
@@ -111,7 +80,7 @@ class _AddScheduleState extends State<AddSchedule> {
                           borderRadius: BorderRadius.circular(5)),
                       height: 30,
                       width: 230,
-                      child: Text(_endSelectedDate.toString())),
+                      child: Obx(()=>Text(controller.endSelectedDate.value.toString()))),
                   SizedBox(
                     // width: 250,
                     height: 30,
@@ -119,7 +88,7 @@ class _AddScheduleState extends State<AddSchedule> {
                         style: TextButton.styleFrom(
                             backgroundColor: Color(0xffE6E7FB)),
                         onPressed: () {
-                          _endSelectDateTime(context);
+                          controller.endSelectDateTime(context);
                         },
                         child: Text(
                           '날짜 선택',
@@ -128,12 +97,13 @@ class _AddScheduleState extends State<AddSchedule> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                '담당자',
-              ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Text(
+              //   '담당자',
+              // ),
+              // ...List.generate(currentTeam.length, (index) => Text(currentTeam.members![index])),
               SizedBox(
                 height: 7,
               ),
@@ -143,19 +113,7 @@ class _AddScheduleState extends State<AddSchedule> {
               Align(
                 alignment: Alignment.center,
                 child: PurpleButton(
-                    ontap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => PopupWidget(
-                              content: '생성 하시겠습니까?',
-                              okfunc: () {
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              },
-                              nofunc: () {
-                                Navigator.pop(context);
-                              }));
-                    },
+                    ontap: controller.ismake,
                     buttonText: '생성',
                     buttonWidth: 300),
               )

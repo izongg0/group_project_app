@@ -69,7 +69,7 @@ class TeamCard extends StatelessWidget {
                     style: TextButton.styleFrom(
                         backgroundColor: Color(0xffE6E7FB)),
                     onPressed: () {
-                      Get.to(TeamHome());
+                      Get.to(TeamHome(),arguments: thisTeam);
                               Get.find<HomeController>().teamMember.value = thisTeam.members!;
 
                     },
