@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class TaskDTO {
   final String? masterUid;
   final String? teamUid;
+  final String? teamName;
   final String? description;
   final DateTime? endDate;
   List<String>? members;
@@ -12,6 +13,7 @@ class TaskDTO {
   TaskDTO(
       {this.masterUid,
       this.teamUid,
+      this.teamName,
       this.description,
       this.endDate,
       this.members
@@ -21,6 +23,8 @@ class TaskDTO {
     return TaskDTO(
       masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
       teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
+            teamName: json['teamName'] == null ? '' : json['teamName'] as String,
+
       description:
           json['description'] == null ? '' : json['description'] as String,
       endDate:
@@ -35,6 +39,8 @@ class TaskDTO {
     return TaskDTO(
       masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
       teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
+            teamName: json['teamName'] == null ? '' : json['teamName'] as String,
+
       description:
           json['description'] == null ? '' : json['description'] as String,
       endDate:
@@ -49,6 +55,7 @@ class TaskDTO {
   TaskDTO copyWith(
       {String? masterUid,
       String? teamUid,
+      String? teamName,
       String? description,
       DateTime? endDate,
       List<String>? members
@@ -56,6 +63,8 @@ class TaskDTO {
     return TaskDTO(
       masterUid: masterUid ?? this.masterUid,
       teamUid: teamUid ?? this.teamUid,
+            teamName: teamName ?? this.teamName,
+
       description: description ?? this.description,
       endDate: endDate ?? this.endDate,
       members: members ?? this.members,
@@ -66,6 +75,7 @@ class TaskDTO {
     return {
       'masterUid': masterUid,
       'teamUid': teamUid,
+      'teamName' : teamName,
       'description': description,
       'endDate': endDate,
       'members': members, 

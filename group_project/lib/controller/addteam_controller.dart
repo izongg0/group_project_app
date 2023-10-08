@@ -120,7 +120,7 @@ class AddTeamController extends GetxController {
 
               await TeamRepo.addTeam(teamData);
               Navigator.pop(context);
-              
+              Get.find<HomeController>().onInit();
 
               Get.until((route) => Get.currentRoute == '/');
             },

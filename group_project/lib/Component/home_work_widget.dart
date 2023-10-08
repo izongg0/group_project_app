@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 class HomeWordWidget extends StatelessWidget {
   final String teamName;
   final String description;
-  final String startDate;
   final String endDate;
 
   const HomeWordWidget(
       {super.key,
       required String this.teamName,
       required String this.description,
-      required String this.startDate,
       required String this.endDate});
 
   @override

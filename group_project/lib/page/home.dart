@@ -16,33 +16,52 @@ class Home extends GetView<HomeController> {
 
   var controller = Get.put(HomeController());
 
-  Widget _myWork() {
+  Widget _myWork(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Obx(() => Column(
             children: [
-              Text('나의 할일'),
-              IconButton(
-                  onPressed: () {
-                    Get.to(MyWorkList());
-                  },
-                  icon: Icon(Icons.more_horiz)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('나의 할일'),
+                  IconButton(
+                      onPressed: () {
+                        // Get.to(MyWorkList());
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => MyWorkList()),
+                        // ).then((result) {
+                        //   // 이곳에서 돌아왔을 때 처리할 로직
+                        //   if (result == null) {
+
+                        //   }
+                        // });
+                        // Get.delete<HomeController>();
+
+                        Get.to(MyWorkList())!.then((result) {
+                          // 이곳에서 돌아왔을 때 처리할 로직
+                          if (result == null) {
+                            controller.onInit();
+                            // Get.find<HomeController>().onInit();
+                            print('ㅁㅇㄹㅁㄴ');
+                          }
+                        });
+                      },
+                      icon: Icon(Icons.more_horiz)),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              ...List.generate(
+                  controller.myTask.value.length,
+                  (index) => HomeWordWidget(
+                      teamName: controller.myTask.value[index].teamName!,
+                      description: controller.myTask.value[index].description!,
+                      endDate:
+                          controller.myTask.value[index].endDate.toString()))
             ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          ...List.generate(
-              3,
-              (index) => HomeWordWidget(
-                  teamName: '기술경영 2분반 5조',
-                  description: '기술경영 ahp 과제 보고서 작성',
-                  startDate: '9/14',
-                  endDate: '9/26'))
-        ],
-      ),
+          )),
     );
   }
 
@@ -55,22 +74,7 @@ class Home extends GetView<HomeController> {
             Text('팀'),
             IconButton(
                 onPressed: () async {
-                  Get.delete<HomeController>();
-
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddTeam()),
-                  );
-
-                  // 다시 이전 페이지로 돌아왔을 때의 처리 (예: 결과 출력)
-                  if (result == null) {
-                    controller = Get.put(HomeController(),
-                        // 앱이 종료되기 전까지 이 인스턴스는 살아있음.
-                        permanent: false);
-                    print('aaaa');
-                  } else {}
-
-                  // Get.to(AddTeam());
+                  Get.to(AddTeam());
                 },
                 icon: Icon(Icons.add_box_outlined)),
           ],
@@ -102,7 +106,6 @@ class Home extends GetView<HomeController> {
                                     .toList()[index],
                                 teamUid: controller.myTeamMap.value.keys
                                     .toList()[index],
-                             
                               ))
                       .toList()), // 데이터 모델 만들어서 객체 넘기는게 좋지만 의존성을 낮추기 위해 안함
             )),
@@ -115,28 +118,30 @@ class Home extends GetView<HomeController> {
     print('홈 빌드');
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-            height: 80,
-          ),
-          Text(
-            "TeamPlanner",
-            style: TextStyle(
-                color: Color(0xff8875FF),
-                fontSize: 25,
-                fontWeight: FontWeight.w900),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          _myWork(),
-          SizedBox(
-            height: 10,
-          ),
-          _myTeam(context)
-        ]),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              height: 80,
+            ),
+            Text(
+              "TeamPlanner",
+              style: TextStyle(
+                  color: Color(0xff8875FF),
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            _myWork(context),
+            SizedBox(
+              height: 10,
+            ),
+            _myTeam(context)
+          ]),
+        ),
       ),
     );
   }

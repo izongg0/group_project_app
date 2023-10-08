@@ -69,9 +69,20 @@ class TeamCard extends StatelessWidget {
                     style: TextButton.styleFrom(
                         backgroundColor: Color(0xffE6E7FB)),
                     onPressed: () {
-                      Get.to(TeamHome(),arguments: thisTeam);
-                              Get.find<HomeController>().teamMember.value = thisTeam.members!;
+                      // Get.to(TeamHome(), arguments: thisTeam);
 
+                      // Get.delete<HomeController>();
+                      Get.to(TeamHome(), arguments: thisTeam)!.then((result) {
+                        // 이곳에서 돌아왔을 때 처리할 로직
+                        if (result == null) {
+                            Get.find<HomeController>().onInit();
+                          // 반환된 데이터를 사용
+                          print('ㅁㅇㄹㅁㄴ');
+                        }
+                      });
+
+                      Get.find<HomeController>().teamMember.value =
+                          thisTeam.members!;
                     },
                     child: Text(
                       '입장하기',

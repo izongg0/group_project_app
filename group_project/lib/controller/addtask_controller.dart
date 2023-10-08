@@ -7,6 +7,7 @@ import 'package:group_project/repository/task_repo.dart';
 import '../component/popup_widget.dart';
 import '../model/userDTO.dart';
 import '../repository/team_repo.dart';
+import 'home_controller.dart';
 
 class AddTaskController extends GetxController {
   Rx<DateTime> endSelectedDate = DateTime.now().obs; // 이거사용
@@ -50,23 +51,26 @@ class AddTaskController extends GetxController {
     }
   }
 
-Future<void> ismake() async {
+  Future<void> ismake() async {
     showDialog(
         context: Get.context!,
         builder: (context) => PopupWidget(
             content: '생성 하시겠습니까?',
             okfunc: () async {
               var taskData = TaskDTO(
-                  masterUid: auth.currentUser?.uid,
-                  teamUid: currentTeam.teamUid,
-                  description: inputDesController.text,
-                  endDate: endSelectedDate.value,
-                  );
+                masterUid: auth.currentUser?.uid,
+                teamUid: currentTeam.teamUid,
+                teamName: currentTeam.teamName,
+                description: inputDesController.text,
+                endDate: endSelectedDate.value,
+              );
 
               await TaskRepo.addTask(taskData);
+              Get.find<HomeController>().onInit();
+
               Navigator.pop(context);
 
-              Get.until((route) => Get.currentRoute == '/');
+              Get.until((route) => Get.currentRoute == '/TeamHome');
             },
             nofunc: () {
               Navigator.pop(context);
