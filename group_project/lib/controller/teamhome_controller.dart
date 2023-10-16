@@ -11,7 +11,6 @@ class TeamHomeController extends GetxController {
 
   void onInit() async {
     super.onInit();
-    print("여기 팀${members}");
   }
 
   Future<List<UserDTO>> setMembers(List<String> user) async {

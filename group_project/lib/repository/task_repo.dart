@@ -24,7 +24,29 @@ class TaskRepo {
 
       taskList.add(transdata);
     }
+    taskList.sort((a, b) => a.endDate!.compareTo(b.endDate!));
 
     return taskList;
   }
+
+  static Future<List<TaskDTO>> getTeamTask(String teamUid) async {
+    print(teamUid);
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('tasks')
+        .where('teamUid', isEqualTo: teamUid)
+        .get();
+    List<TaskDTO> teamTaskList = [];
+
+    for (var doc in querySnapshot.docs) {
+      var transdata = TaskDTO.DtofromJson(
+          doc as QueryDocumentSnapshot<Map<String, dynamic>>);
+
+      teamTaskList.add(transdata);
+    }
+    teamTaskList.sort((a, b) => a.endDate!.compareTo(b.endDate!));
+
+    return teamTaskList;
+  }
+
+
 }

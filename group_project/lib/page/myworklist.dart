@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/component/work_widget.dart';
 
+import '../controller/home_controller.dart';
+
 class MyWorkList extends StatelessWidget {
-  const MyWorkList({super.key});
+  MyWorkList({super.key});
+  
+  var controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +21,19 @@ class MyWorkList extends StatelessWidget {
         title: Text('나의 할 일',style: TextStyle(color: Colors.black,fontSize: 17),),
         centerTitle: true,
       ),
-      body: Column(children: [
-        SizedBox(height: 10,),
-        ...List.generate(3, (index) => WorkCard(teamName: '기술경영', description: '기술경영 ahpdㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ', startDate: '9/5', endDate: '9.25',workType: WorkType.MY_WORK,))
-      ]),
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(children: [
+          SizedBox(height: 10,),
+       ...List.generate(
+                    controller.myTask.value.length,
+                    (index) => WorkCard(
+                        teamName: controller.myTask.value[index].teamName!,
+                        description: controller.myTask.value[index].description!,
+                        endDate:
+                            controller.myTask.value[index].endDate!,workType: WorkType.MY_WORK,))   
+                              ]),
+      ),
     );
   }
 }

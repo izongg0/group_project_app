@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:group_project/component/home_work_widget.dart';
 import 'package:group_project/component/team_widget.dart';
+import 'package:group_project/component/work_widget.dart';
 import 'package:group_project/controller/addteam_controller.dart';
 import 'package:group_project/controller/home_controller.dart';
 import 'package:group_project/model/teamDTO.dart';
@@ -15,8 +15,10 @@ class Home extends GetView<HomeController> {
   Home({super.key});
 
   var controller = Get.put(HomeController());
-
   Widget _myWork(BuildContext context) {
+
+
+
     return Container(
       child: Obx(() => Column(
             children: [
@@ -26,17 +28,7 @@ class Home extends GetView<HomeController> {
                   Text('나의 할일'),
                   IconButton(
                       onPressed: () {
-                        // Get.to(MyWorkList());
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => MyWorkList()),
-                        // ).then((result) {
-                        //   // 이곳에서 돌아왔을 때 처리할 로직
-                        //   if (result == null) {
-
-                        //   }
-                        // });
-                        // Get.delete<HomeController>();
+     
 
                         Get.to(MyWorkList())!.then((result) {
                           // 이곳에서 돌아왔을 때 처리할 로직
@@ -54,12 +46,12 @@ class Home extends GetView<HomeController> {
                 height: 8,
               ),
               ...List.generate(
-                  controller.myTask.value.length,
-                  (index) => HomeWordWidget(
+                  controller.myTask.value.length ,
+                  (index) => WorkCard(
                       teamName: controller.myTask.value[index].teamName!,
                       description: controller.myTask.value[index].description!,
                       endDate:
-                          controller.myTask.value[index].endDate.toString()))
+                          controller.myTask.value[index].endDate!,workType: WorkType.MY_WORK,))
             ],
           )),
     );
