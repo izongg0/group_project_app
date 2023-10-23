@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:group_project/model/teamDTO.dart';
 
 import '../model/userDTO.dart';
@@ -21,6 +22,17 @@ class UserRepo {
         .toList();
   }
 
+  static Future<UserDTO> getCurrentUserDTOByUid(String uid) async {
+    var query = FirebaseFirestore.instance
+        .collection('users')
+        .where('uid', isEqualTo: auth.currentUser!.uid);
+    var querySnapshot = await query.get();
+    var currentUser = querySnapshot.docs
+        .map<UserDTO>((e) => UserDTO.fromJson(e.data()))
+        .toList();
+    print(currentUser);
 
-  
+    return currentUser.first;
+  }
 }
+  FirebaseAuth auth = FirebaseAuth.instance;

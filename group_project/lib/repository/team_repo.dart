@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:group_project/model/userDTO.dart';
 
 import '../model/teamDTO.dart';
+import 'user_repo.dart';
 
 class TeamRepo {
 

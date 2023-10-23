@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:group_project/model/taskDTO.dart';
 
 import '../model/userDTO.dart';
+import 'user_repo.dart';
 
 class TaskRepo {
   static Future<void> addTask(TaskDTO taskData) async {

@@ -20,7 +20,6 @@ class HomeController extends GetxController
     super.onInit();
     getMyTeam();
     getMytask();
-    print('컨트롤러 재실행');
   }
 
   Future<void> getMytask() async {

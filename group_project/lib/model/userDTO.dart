@@ -99,6 +99,5 @@ class UserDTO {
   }
 }
 
-  FirebaseAuth auth = FirebaseAuth.instance;
 
 

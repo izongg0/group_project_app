@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/Component/purple_button.dart';
+import 'package:group_project/controller/addpost_controller.dart';
 
 import '../component/popup_widget.dart';
+import '../model/teamDTO.dart';
 
-class AddPost extends StatelessWidget {
-  const AddPost({super.key});
+class AddPost extends GetView<AddPostController> {
+  AddPost({super.key});
 
+  final controller = Get.put(AddPostController());
+  var getTeamData = Get.arguments as TeamDTO;
 
-void unfocusKeyboard() {
+  void unfocusKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-Widget _addImage(){
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text('이미지 추가'),
-          SizedBox(height: 10,),
-
-    Row(children: [
-      Icon(Icons.add_a_photo_outlined,size: 40,color: Colors.grey,)
-
-    ],)
-  ],);
-}
+  Widget _addImage() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('이미지 추가'),
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Icon(
+              Icons.add_a_photo_outlined,
+              size: 40,
+              color: Colors.grey,
+            )
+          ],
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector
-    (onTap: unfocusKeyboard,
+    controller.currentTeam = getTeamData;
+
+    return GestureDetector(
+      onTap: unfocusKeyboard,
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -43,10 +57,12 @@ Widget _addImage(){
           centerTitle: true,
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal:20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(children: [
-            SizedBox(height: 20,),
-        Container(
+            SizedBox(
+              height: 20,
+            ),
+            Container(
                 alignment: Alignment.center,
                 height: 45,
                 width: MediaQuery.of(context).size.width,
@@ -61,18 +77,19 @@ Widget _addImage(){
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextField(
-                    
-                    // controller: textEditingController, // 나중에 주석 풀기
+                    controller: controller.inputTitleController, // 나중에 주석 풀기
                     decoration: InputDecoration(
-                      hintText: '제목을 입력해주세요.',
+                        hintText: '제목을 입력해주세요.',
                         disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         contentPadding: EdgeInsets.zero),
                   ),
                 )),
-                SizedBox(height: 20,),
-                Container(
+            SizedBox(
+              height: 20,
+            ),
+            Container(
                 alignment: Alignment.center,
                 height: 400,
                 width: MediaQuery.of(context).size.width,
@@ -87,34 +104,24 @@ Widget _addImage(){
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextField(
-                    
-                    // controller: textEditingController, // 나중에 주석 풀기
+                    controller: controller.inputContentController, // 나중에 주석 풀기
                     decoration: InputDecoration(
-                      hintText: '내용을 입력해주세요.',
+                        hintText: '내용을 입력해주세요.',
                         disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         contentPadding: EdgeInsets.zero),
                   ),
                 )),
-                SizedBox(height: 20,),
-                _addImage(),
-                SizedBox(height: 30,),
-                PurpleButton(ontap: (){
-                  showDialog(
-                          context: context,
-                          builder: (context) => PopupWidget(
-                              content: '작성 하시겠습니까?',
-                              okfunc: () {
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              },
-                              nofunc: () {
-                                Navigator.pop(context);
-                              }));
-                  
-                  }, buttonText: '작성', buttonWidth: 300)
-        
+            SizedBox(
+              height: 20,
+            ),
+            _addImage(),
+            SizedBox(
+              height: 30,
+            ),
+            PurpleButton(
+                ontap: controller.ismake, buttonText: '작성', buttonWidth: 300)
           ]),
         ),
       ),

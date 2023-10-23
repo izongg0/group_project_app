@@ -9,6 +9,7 @@ import 'package:group_project/page/addschedule.dart';
 import 'package:group_project/page/groupwork.dart';
 import 'package:group_project/page/teamboard.dart';
 import 'package:group_project/repository/team_repo.dart';
+import 'package:group_project/repository/user_repo.dart';
 
 import '../model/teamDTO.dart';
 import '../model/userDTO.dart';
@@ -111,8 +112,10 @@ class _TeamHomeState extends State<TeamHome> {
       children: [
         PurpleButton(
           ontap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => TeamBoard()));
+
+                          Get.to(TeamBoard(),arguments: currentTeam);
+
+  
           },
           buttonText: '게시판',
           buttonWidth: 400,

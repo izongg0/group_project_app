@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
 
-class Post extends StatelessWidget {
-  const Post({super.key});
+import '../model/postDTO.dart';
+
+class Post extends StatefulWidget {
+   Post({super.key});
+
+  @override
+  State<Post> createState() => _PostState();
+}
+
+class _PostState extends State<Post> {
+    var getPostData = Get.arguments as PostDTO ;
 
   Widget _header() {
     return Stack(
@@ -11,7 +21,7 @@ class Post extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileImage(animal: 'assets/cat.png', type: ProfileType.TYPE1),
+            ProfileImage(animal: getPostData.currentUser!['thumbnail'], type: ProfileType.TYPE1),
             SizedBox(
               width: 20,
             ),
@@ -22,7 +32,7 @@ class Post extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  '보고서 제출하는 제출하는 법',
+                  getPostData.title!,
                   style: TextStyle(fontSize: 17),
                 ),
                 SizedBox(
@@ -30,12 +40,12 @@ class Post extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('홍길동'),
+                    Text(getPostData.currentUser!['userName']),
                     SizedBox(
                       width: 15,
                     ),
                     Text(
-                      '23.9.1 00:00',
+                      getPostData.postDate.toString(),
                       style: TextStyle(fontSize: 13),
                     )
                   ],
@@ -64,9 +74,11 @@ class Post extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [],
+          children: [
+            Text(getPostData.content!)
+          ],
         ),
       ),
     );

@@ -51,6 +51,8 @@ class PostDTO {
       viewMember: json['viewMember'] == null
           ? []
           : List<String>.from(json['viewMember']),
+              currentUser: json['currentUser'], // currentUser 변수 추가
+
     );
   }
 

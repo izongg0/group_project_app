@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:group_project/model/taskDTO.dart';
 import 'package:group_project/model/teamDTO.dart';
 import 'package:group_project/repository/task_repo.dart';
+import 'package:group_project/repository/user_repo.dart';
 
 import '../component/popup_widget.dart';
 import '../model/userDTO.dart';
