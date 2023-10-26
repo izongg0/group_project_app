@@ -116,7 +116,7 @@ class AddPost extends GetView<AddPostController> {
             SizedBox(
               height: 20,
             ),
-            _addImage(),
+            // _addImage(),
             SizedBox(
               height: 30,
             ),

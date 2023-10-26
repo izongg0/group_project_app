@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:group_project/Component/purple_button.dart';
 
 class ProfileSelect extends StatelessWidget {
-
   ProfileSelect({
     super.key,
-  
   });
 
   final List<String> items = [
@@ -26,7 +24,6 @@ class ProfileSelect extends StatelessWidget {
     'rabbit',
     'rhinoceros',
     'tiger',
-
   ];
 
   @override
@@ -43,21 +40,18 @@ class ProfileSelect extends StatelessWidget {
                 alignment: Alignment.center,
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                width: MediaQuery.of(context).size.width * 0.7,
+                // width: MediaQuery.of(context).size.width * 0.7,
                 child: Column(
                   children: [
-                    Row(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                    
                         ...List.generate(items.length, (index) => GestureDetector(
                           onTap: (){ Navigator.of(context).pop('assets/${items[index]}.png');},
                           child: Image.asset('assets/${items[index]}.png',width: 40,)))
-                        
-                        
                       ],
                     ),
-
-                
                   ],
                 )),
           ),

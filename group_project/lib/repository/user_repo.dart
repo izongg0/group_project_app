@@ -22,7 +22,7 @@ class UserRepo {
         .toList();
   }
 
-  static Future<UserDTO> getCurrentUserDTOByUid(String uid) async {
+  static Future<UserDTO> getCurrentUserDTOByUid() async {
     var query = FirebaseFirestore.instance
         .collection('users')
         .where('uid', isEqualTo: auth.currentUser!.uid);

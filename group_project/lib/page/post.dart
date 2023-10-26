@@ -125,16 +125,16 @@ class _PostState extends State<Post> {
               SizedBox(
                 height: 20,
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: PurpleButton(
-                  ontap: () {},
-                  buttonText: '조회',
-                  buttonWidth: 100,
-                  buttonHeight: 40,
-                ),
-              ),
-              _viewMember()
+              // Align(
+              //   alignment: Alignment.centerRight,
+              //   child: PurpleButton(
+              //     ontap: () {},
+              //     buttonText: '조회',
+              //     buttonWidth: 100,
+              //     buttonHeight: 40,
+              //   ),
+              // ),
+              // _viewMember()
             ],
           ),
         ),

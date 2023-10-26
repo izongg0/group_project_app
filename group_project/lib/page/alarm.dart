@@ -6,8 +6,13 @@ class Alarm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        child: Image.asset('assets/teamPlanner.png',width: 200,),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/teamPlanner.png',width: 200,),
+          SizedBox(height: 10,),
+          Text('준비중 ...',style: TextStyle( color: Colors.grey,fontSize: 25,fontWeight: FontWeight.bold),)
+        ],
       ),
     );
   }

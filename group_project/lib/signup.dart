@@ -29,8 +29,6 @@ class _SignupState extends State<Signup> {
   final _inputClassnumController = TextEditingController();
 
   String imgNum = 'assets/default_img.png';
-  
-
 
 // Firestore에 사용자 정보 추가 함수
   void addUserDataToFirestore(User user) async {
@@ -60,7 +58,6 @@ class _SignupState extends State<Signup> {
           .then((value) {
         if (value.user!.email == null) {
         } else {
-
           addUserDataToFirestore(value.user!);
           Navigator.pop(context);
         }
@@ -88,7 +85,10 @@ class _SignupState extends State<Signup> {
         });
 
     setState(() {
-      imgNum = img!;
+      if(img != null){
+              imgNum = img;
+
+      }
     });
   }
 
@@ -105,16 +105,18 @@ class _SignupState extends State<Signup> {
           height: 7,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
               imgNum,
               width: 40,
             ),
-            GestureDetector(
-                onTap: () {
+            PurpleButton(
+                ontap: () {
                   _selectProfileImg(context);
                 },
-                child: Text('선택'))
+                buttonText: '선택',
+                buttonWidth: 60)
           ],
         )
       ],
@@ -154,7 +156,6 @@ class _SignupState extends State<Signup> {
             Text(
               '비밀번호',
             ),
-    
             SizedBox(
               height: 7,
             ),
@@ -258,7 +259,16 @@ class _SignupState extends State<Signup> {
                 alignment: Alignment.center,
                 child: PurpleButton(
                     ontap: () {
-                      register();
+                      showDialog(
+                          context: context,
+                          builder: ((context) => PopupWidget(
+                                content: '이메일 인증 후 가입이 완료 됩니다. 가입하시겠습니까?',
+                                okfunc: register,
+                                nofunc: () {
+                                  Navigator.pop(context);
+                                },
+                              )));
+                      // register();
                     },
                     buttonText: '가입',
                     buttonWidth: 300)),

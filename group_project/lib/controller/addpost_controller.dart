@@ -24,7 +24,7 @@ class AddPostController extends GetxController {
   }
 
   Future<void> ismake() async {
-    currentUser = await UserRepo.getCurrentUserDTOByUid(auth.currentUser!.uid);
+    currentUser = await UserRepo.getCurrentUserDTOByUid();
     // print(currentUser.toMap());
 
 

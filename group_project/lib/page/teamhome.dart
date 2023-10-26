@@ -132,33 +132,33 @@ class _TeamHomeState extends State<TeamHome> {
         SizedBox(
           height: 15,
         ),
-        Row(
-          children: [
-            Expanded(
-                child: PurpleButton(
-                    ontap: () async {}, buttonText: '팀 나가기', buttonWidth: 100)),
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(
-                child: PurpleButton(
-                    ontap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => PopupWidget(
-                              content: '과제를 종료하시겠습니까?',
-                              okfunc: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (_) => Home()));
-                              },
-                              nofunc: () {
-                                Navigator.pop(context);
-                              }));
-                    },
-                    buttonText: '과제 종료',
-                    buttonWidth: 100))
-          ],
-        )
+        // Row(
+        //   children: [
+        //     Expanded(
+        //         child: PurpleButton(
+        //             ontap: () async {}, buttonText: '팀 나가기', buttonWidth: 100)),
+        //     SizedBox(
+        //       width: 20,
+        //     ),
+        //     Expanded(
+        //         child: PurpleButton(
+        //             ontap: () {
+        //               showDialog(
+        //                   context: context,
+        //                   builder: (context) => PopupWidget(
+        //                       content: '과제를 종료하시겠습니까?',
+        //                       okfunc: () {
+        //                         Navigator.push(context,
+        //                             MaterialPageRoute(builder: (_) => Home()));
+        //                       },
+        //                       nofunc: () {
+        //                         Navigator.pop(context);
+        //                       }));
+        //             },
+        //             buttonText: '과제 종료',
+        //             buttonWidth: 100))
+        //   ],
+        // )
       ],
     );
   }
@@ -191,18 +191,18 @@ class _TeamHomeState extends State<TeamHome> {
               height: 10,
             ),
             if (currentTeam.masterUid == auth.currentUser!.uid) _settings(),
-            _notice(context),
+            // _notice(context),
             SizedBox(
               height: 8,
             ),
-            Align(
-                alignment: Alignment.centerRight,
-                child: PurpleButton(
-                  ontap: () {},
-                  buttonText: '수정',
-                  buttonWidth: 60,
-                  buttonHeight: 34,
-                )),
+            // Align(
+            //     alignment: Alignment.centerRight,
+            //     child: PurpleButton(
+            //       ontap: () {},
+            //       buttonText: '수정',
+            //       buttonWidth: 60,
+            //       buttonHeight: 34,
+            //     )),
             SizedBox(
               height: 15,
             ),
