@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:group_project/controller/teamhome_controller.dart';
 import 'package:group_project/page/teamhome.dart';
 import 'package:intl/intl.dart';
 
@@ -72,17 +73,22 @@ class TeamCard extends StatelessWidget {
                       // Get.to(TeamHome(), arguments: thisTeam);
 
                       // Get.delete<HomeController>();
+                      print("왜?${thisTeam}");
                       Get.to(TeamHome(), arguments: thisTeam)!.then((result) {
                         // 이곳에서 돌아왔을 때 처리할 로직
                         if (result == null) {
-                            Get.find<HomeController>().onInit();
+                          Get.find<HomeController>().onInit();
                           // 반환된 데이터를 사용
                           print('ㅁㅇㄹㅁㄴ');
                         }
                       });
+                      // Get.find<HomeController>().teamMember.value =
+                      //     thisTeam.members!;
 
-                      Get.find<HomeController>().teamMember.value =
+                      Get.put(TeamHomeController());
+                      Get.find<TeamHomeController>().teamMember.value =
                           thisTeam.members!;
+                      Get.find<TeamHomeController>().thisTeam.value = thisTeam;
                     },
                     child: Text(
                       '입장하기',

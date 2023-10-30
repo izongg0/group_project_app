@@ -31,7 +31,6 @@ class TaskRepo {
   }
 
   static Future<List<TaskDTO>> getTeamTask(String teamUid) async {
-    print(teamUid);
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('tasks')
         .where('teamUid', isEqualTo: teamUid)

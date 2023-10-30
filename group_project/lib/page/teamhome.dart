@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:group_project/component/popup_widget.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
 import 'package:group_project/controller/home_controller.dart';
 import 'package:group_project/controller/teamhome_controller.dart';
-import 'package:group_project/page/addschedule.dart';
+import 'package:group_project/controller/teamtask_controller.dart';
+
 import 'package:group_project/page/groupwork.dart';
 import 'package:group_project/page/teamboard.dart';
 import 'package:group_project/repository/team_repo.dart';
 import 'package:group_project/repository/user_repo.dart';
 
+import '../component/popup_widget.dart';
 import '../model/teamDTO.dart';
 import '../model/userDTO.dart';
+import 'editnotice.dart';
 import 'home.dart';
 
 class TeamHome extends StatefulWidget {
@@ -23,23 +25,11 @@ class TeamHome extends StatefulWidget {
 }
 
 class _TeamHomeState extends State<TeamHome> {
-  var controller = Get.put(HomeController());
+  var controller = Get.put(TeamHomeController());
   List<UserDTO> memberList = [];
+
   var currentTeam = Get.arguments as TeamDTO;
-
-  @override
-  void initState() {
-    super.initState();
-
-    Future.microtask(() async {
-      // initstate 에서 비동기작업 불가능하기때문에 이렇게 사용함
-      var thismemberList = await controller.getmembers(controller.teamMember);
-      // setState를 호출하여 화면을 다시 그리도록 합니다.
-      setState(() {
-        memberList = thismemberList;
-      });
-    });
-  }
+  var teamNotice = "";
 
   Widget _notice(BuildContext context) {
     return Column(
@@ -60,7 +50,7 @@ class _TeamHomeState extends State<TeamHome> {
               color: Colors.grey.withOpacity(0.9),
               spreadRadius: 0,
               blurRadius: 2.0,
-              offset: Offset(0, 1), // changes position of shadow
+              offset: Offset(0, 1),
             ),
           ], borderRadius: BorderRadius.circular(10), color: Colors.white),
           child: Padding(
@@ -68,9 +58,7 @@ class _TeamHomeState extends State<TeamHome> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Text('여기 팀 uid -> ${controller.myTeamMap.value.values.toList()[0].members}'),
-                  Text(
-                      '- 화상회의 주소 : https://apps.google.com/intl/ko/intl/ko_ALL/meet/'),
+                  Obx(() => Text(controller.thisTeam.value.notice ?? "f")),
                 ],
               )),
         )
@@ -79,6 +67,8 @@ class _TeamHomeState extends State<TeamHome> {
   }
 
   Widget _member(BuildContext context) {
+    controller.teamMember.value = currentTeam.members!;
+    controller.getmembers();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,20 +79,20 @@ class _TeamHomeState extends State<TeamHome> {
         SizedBox(
           height: 18,
         ),
-        Row(
-          children: [
-            ...List.generate(
-                memberList.length,
-                (index) => Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: ProfileImage(
-                        animal: memberList[index].thumbnail!,
-                        type: ProfileType.TYPE2,
-                        nickname: memberList[index].userName,
-                      ),
-                    ))
-          ],
-        )
+        Obx(() => Row(
+              children: [
+                ...List.generate(
+                    controller.members.value.length,
+                    (index) => Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: ProfileImage(
+                            animal: controller.members[index].thumbnail!,
+                            type: ProfileType.TYPE2,
+                            nickname: controller.members[index].userName,
+                          ),
+                        ))
+              ],
+            ))
       ],
     );
   }
@@ -112,10 +102,7 @@ class _TeamHomeState extends State<TeamHome> {
       children: [
         PurpleButton(
           ontap: () {
-
-                          Get.to(TeamBoard(),arguments: currentTeam);
-
-  
+            Get.to(TeamBoard(), arguments: currentTeam);
           },
           buttonText: '게시판',
           buttonWidth: 400,
@@ -125,51 +112,66 @@ class _TeamHomeState extends State<TeamHome> {
         ),
         PurpleButton(
             ontap: () {
-              Get.to(GroupWork(),arguments: currentTeam);
+              // Get.put(TeamTaskController()).currentTeamUid.value = currentTeam.teamUid!;
+              // Get.put(TeamTaskController());
+              // Get.find<TeamTaskController>().currentTeamUid.value = currentTeam.teamUid!;
+              Get.to(GroupWork(), arguments: currentTeam);
             },
             buttonText: '과업',
             buttonWidth: 400),
         SizedBox(
-          height: 15,
+          height: 30,
         ),
-        // Row(
-        //   children: [
-        //     Expanded(
-        //         child: PurpleButton(
-        //             ontap: () async {}, buttonText: '팀 나가기', buttonWidth: 100)),
-        //     SizedBox(
-        //       width: 20,
-        //     ),
-        //     Expanded(
-        //         child: PurpleButton(
-        //             ontap: () {
-        //               showDialog(
-        //                   context: context,
-        //                   builder: (context) => PopupWidget(
-        //                       content: '과제를 종료하시겠습니까?',
-        //                       okfunc: () {
-        //                         Navigator.push(context,
-        //                             MaterialPageRoute(builder: (_) => Home()));
-        //                       },
-        //                       nofunc: () {
-        //                         Navigator.pop(context);
-        //                       }));
-        //             },
-        //             buttonText: '과제 종료',
-        //             buttonWidth: 100))
-        //   ],
-        // )
+        Row(
+          children: [
+            // Expanded(
+            //     child: PurpleButton(
+            //         ontap: () async {}, buttonText: '팀 나가기', buttonWidth: 100)),
+            // SizedBox(
+            //   width: 20,
+            // ),
+            Expanded(
+                child: PurpleButton(
+                    ontap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => PopupWidget(
+                              content:
+                                  '과제를 종료하시겠습니까? \n\n※ 팀 일정, 게시글이 모두 삭제됩니다. \n※ 복구 불가능합니다.',
+                              okfunc: () async {
+                                await TeamRepo.deleteTeam(
+                                    controller.thisTeam.value.teamUid!);
+                                Get.find<HomeController>().onInit();
+                                Navigator.pop(context);
+                                                                // Navigator.pop(context);
+
+                                Get.until(
+                                    (route) => Get.currentRoute == '/');
+
+                           
+                              },
+                              nofunc: () {
+                                Navigator.pop(context);
+                              }));
+                    },
+                    buttonText: '과제 종료',
+                    buttonWidth: 100))
+          ],
+        )
       ],
     );
   }
 
   Widget _settings() {
-    return Align(alignment: Alignment.centerRight, child: Text('관리'));
+    return GestureDetector(
+        onTap: () {
+          Get.to(EditNotice(), arguments: currentTeam);
+        },
+        child: Align(alignment: Alignment.centerRight, child: Text('관리')));
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -178,7 +180,7 @@ class _TeamHomeState extends State<TeamHome> {
         elevation: 0,
         backgroundColor: Color(0xffF9F8F8),
         title: Text(
-          '기술경영 2분반 5조',
+          controller.thisTeam.value.teamName!,
           style: TextStyle(color: Colors.black, fontSize: 17),
         ),
         centerTitle: true,
@@ -191,7 +193,7 @@ class _TeamHomeState extends State<TeamHome> {
               height: 10,
             ),
             if (currentTeam.masterUid == auth.currentUser!.uid) _settings(),
-            // _notice(context),
+            _notice(context),
             SizedBox(
               height: 8,
             ),

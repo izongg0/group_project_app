@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:group_project/controller/teamtask_controller.dart';
 import 'package:group_project/model/taskDTO.dart';
 import 'package:group_project/model/teamDTO.dart';
+import 'package:group_project/page/groupwork.dart';
 import 'package:group_project/repository/task_repo.dart';
 import 'package:group_project/repository/user_repo.dart';
 
@@ -68,10 +70,12 @@ class AddTaskController extends GetxController {
 
               await TaskRepo.addTask(taskData);
               Get.find<HomeController>().onInit();
+              Get.find<TeamTaskController>().onInit();
 
               Navigator.pop(context);
 
-              Get.until((route) => Get.currentRoute == '/TeamHome');
+              Get.until((route) => Get.currentRoute == '/GroupWork');
+              // Get.to(GroupWork(),arguments: currentTeam);
             },
             nofunc: () {
               Navigator.pop(context);

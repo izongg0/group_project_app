@@ -4,13 +4,15 @@ import 'package:group_project/controller/home_controller.dart';
 import 'package:group_project/controller/teamhome_controller.dart';
 
 import '../controller/nav_controller.dart';
+import '../controller/teamtask_controller.dart';
 
 class InitBining extends Bindings {
   void dependencies() {
     Get.put(BottomNavController(),
         // 앱이 종료되기 전까지 이 인스턴스는 살아있음.
-        permanent: true);
-// Get.put(TeamHomeController(),
+        // permanent: true
+        );
+// Get.put(TeamTaskController(),
 //         // 앱이 종료되기 전까지 이 인스턴스는 살아있음.
 //         permanent: true);
   }

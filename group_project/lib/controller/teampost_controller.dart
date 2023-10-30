@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:group_project/repository/task_repo.dart';
 
 import '../model/postDTO.dart';
 import '../model/taskDTO.dart';
@@ -8,11 +7,19 @@ import '../repository/post_repo.dart';
 
 class TeamPostController extends GetxController {
   RxList<PostDTO> teamPost = RxList<PostDTO>();
-  var currentTeam = TeamDTO();
+    var currentTeamUid = "".obs;
 
-  Future<List<PostDTO>> getTeamPost(String teamUid) async {
-    List<TaskDTO> teamTask = [];
-    teamPost(await PostRepo.getTeamPost(teamUid));
+  var currentTeam = TeamDTO().obs;
+@override
+   void onInit() {
+    getTeamPost();
+    super.onInit();
+  }
+
+ 
+  Future<List<PostDTO>> getTeamPost() async {
+    // List<TaskDTO> teamTask = [];
+    teamPost(await PostRepo.getTeamPost(currentTeamUid.value));
     return teamPost;
   }
 }

@@ -85,9 +85,8 @@ class _SignupState extends State<Signup> {
         });
 
     setState(() {
-      if(img != null){
-              imgNum = img;
-
+      if (img != null) {
+        imgNum = img;
       }
     });
   }
@@ -266,6 +265,10 @@ class _SignupState extends State<Signup> {
                                 okfunc: register,
                                 nofunc: () {
                                   Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => Login()));
                                 },
                               )));
                       // register();

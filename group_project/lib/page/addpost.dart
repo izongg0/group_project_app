@@ -90,7 +90,7 @@ class AddPost extends GetView<AddPostController> {
               height: 20,
             ),
             Container(
-                alignment: Alignment.center,
+                // alignment: Alignment.center,
                 height: 400,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(boxShadow: [
@@ -104,6 +104,11 @@ class AddPost extends GetView<AddPostController> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextField(
+                     keyboardType: TextInputType.multiline,
+  maxLines: null,
+                    textAlign: TextAlign.start,
+                      textAlignVertical: TextAlignVertical.top, // 텍스트를 상단에서 시작하도록 설정
+
                     controller: controller.inputContentController, // 나중에 주석 풀기
                     decoration: InputDecoration(
                         hintText: '내용을 입력해주세요.',

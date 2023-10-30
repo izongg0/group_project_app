@@ -23,16 +23,18 @@ class MyWorkList extends StatelessWidget {
       ),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(children: [
-          SizedBox(height: 10,),
-       ...List.generate(
-                    controller.myTask.value.length,
-                    (index) => WorkCard(
-                        teamName: controller.myTask.value[index].teamName!,
-                        description: controller.myTask.value[index].description!,
-                        endDate:
-                            controller.myTask.value[index].endDate!,workType: WorkType.MY_WORK,))   
-                              ]),
+        child: SingleChildScrollView(
+          child: Column(children: [
+            SizedBox(height: 10,),
+               ...List.generate(
+                      controller.myTask.value.length,
+                      (index) => WorkCard(
+                          teamName: controller.myTask.value[index].teamName!,
+                          description: controller.myTask.value[index].description!,
+                          endDate:
+                              controller.myTask.value[index].endDate!,workType: WorkType.MY_WORK,))   
+                                ]),
+        ),
       ),
     );
   }

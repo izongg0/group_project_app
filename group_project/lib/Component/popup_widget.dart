@@ -28,7 +28,7 @@ class PopupWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.8,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

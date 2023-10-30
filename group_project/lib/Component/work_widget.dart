@@ -14,7 +14,7 @@ class WorkCard extends StatelessWidget {
     required String this.teamName,
     required String this.description,
     required DateTime this.endDate,
-    this.worker = 'x',
+    this.worker = '홍길동',
     required this.workType,
   });
 

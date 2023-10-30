@@ -5,52 +5,75 @@ import 'package:group_project/app.dart';
 import 'package:group_project/main.dart';
 import 'package:group_project/signup.dart';
 
+import 'controller/home_controller.dart';
+import 'controller/mypage_controller.dart';
+import 'controller/nav_controller.dart';
 import 'model/userDTO.dart';
 
-// 이메일 
-// izongg@naver.com 
+// 이메일
+// izongg@naver.com
 // whdgns4608@gmail.com
 // whdgnsqwe@naver.com
 
 // 비밀번호 : aaaaaa!
 
-
 class Login extends StatefulWidget {
-   Login({super.key});
+  Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-    final _inputEmailController = TextEditingController();
+  final _inputEmailController = TextEditingController();
 
   final _inputPwdController = TextEditingController();
 
-void login() async {
-   try {
-                  UserCredential userCredential = await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _inputEmailController.text,
-                          password: _inputPwdController.text) //아이디와 비밀번호로 로그인 시도
-                      .then((value) {
-                    print(value);
-                    value.user!.emailVerified == true //이메일 인증 여부
-                        ? Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => App()))
-                        : print('이메일 확인 안댐');
-                    return value;
-                  });
-                } on FirebaseAuthException catch (e) {
-                  //로그인 예외처리
-                  if (e.code == 'user-not-found') {
-                    print('등록되지 않은 이메일입니다');
-                  } else if (e.code == 'wrong-password') {
-                    print('비밀번호가 틀렸습니다');
-                  } else {
-                    print(e.code);
-                  }
-                }
+  void login() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _inputEmailController.text,
+              password: _inputPwdController.text) //아이디와 비밀번호로 로그인 시도
+          .then((value) {
+        print(value);
+
+        if (value.user!.emailVerified == true) {
+          // 현재 화면에서 다른 화면으로 이동하고 반환 값을 설정
+          var result = Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => App()),
+          );
+
+// 다른 화면에서 이전 화면으로 돌아왔을 때 result 값이 전달됩니다.
+          if (result == null) {
+            Get.delete<BottomNavController>();
+            Get.delete<HomeController>();
+            Get.delete<MyPageController>();
+          }else{
+            Get.delete<BottomNavController>();
+            Get.delete<HomeController>();
+            Get.delete<MyPageController>();
+          }
+        } else {
+          print('이메일 확인 안댐');
+        }
+
+        // value.user!.emailVerified == true //이메일 인증 여부
+        //     ? Navigator.push(context, MaterialPageRoute(builder: (_) => App()))
+        //     : print('이메일 확인 안댐');
+        return value;
+      });
+    } on FirebaseAuthException catch (e) {
+      //로그인 예외처리
+      if (e.code == 'user-not-found') {
+        print('등록되지 않은 이메일입니다');
+      } else if (e.code == 'wrong-password') {
+        print('비밀번호가 틀렸습니다');
+      } else {
+        print(e.code);
+      }
+    }
   }
 
   @override
@@ -114,6 +137,7 @@ void login() async {
               height: 30,
               width: 300,
               child: TextField(
+                obscureText: true,
                 controller: _inputPwdController,
                 decoration: InputDecoration(border: InputBorder.none),
               ),
@@ -123,7 +147,7 @@ void login() async {
             ),
             ElevatedButton(
                 onPressed: () {
-                 login();
+                  login();
                 },
                 child: Text('로그인'),
                 style: ElevatedButton.styleFrom(

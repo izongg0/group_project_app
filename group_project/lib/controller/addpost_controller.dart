@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_project/component/popup_widget.dart';
+import 'package:group_project/controller/teampost_controller.dart';
 import 'package:group_project/model/postDTO.dart';
 import 'package:group_project/model/userDTO.dart';
 import 'package:group_project/repository/post_repo.dart';
 import 'package:group_project/repository/user_repo.dart';
 
 import '../model/teamDTO.dart';
-import '../page/teamboard.dart';
 
 class AddPostController extends GetxController {
     TextEditingController inputTitleController = TextEditingController();
@@ -56,7 +56,9 @@ class AddPostController extends GetxController {
               // Get.find<HomeController>().onInit();
 
               Navigator.pop(context);
-              Get.until((route) => Get.currentRoute == '/TeamHome');
+                            Get.find<TeamPostController>().onInit();
+
+              Get.until((route) => Get.currentRoute == '/TeamBoard');
             },
             nofunc: () {
               Navigator.pop(context);

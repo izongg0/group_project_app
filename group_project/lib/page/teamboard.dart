@@ -8,34 +8,19 @@ import '../controller/teampost_controller.dart';
 import '../model/teamDTO.dart';
 import 'post.dart';
 
-class TeamBoard extends StatefulWidget {
+class TeamBoard extends GetView<TeamPostController> {
   TeamBoard({super.key});
 
-  @override
-  State<TeamBoard> createState() => _TeamBoardState();
-}
-
-class _TeamBoardState extends State<TeamBoard> {
   var getTeamData = Get.arguments as TeamDTO;
   final controller = Get.put(TeamPostController());
   List<PostDTO> postList = [];
 
-  void initState() {
-    super.initState();
-
-    Future.microtask(() async {
-      // initstate 에서 비동기작업 불가능하기때문에 이렇게 사용함
-      var teamPost = await controller.getTeamPost(getTeamData.teamUid!);
-      // setState를 호출하여 화면을 다시 그리도록 합니다.
-      setState(() {
-        postList = teamPost;
-        print(postList[0].toMap());
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    controller.currentTeamUid.value = getTeamData.teamUid!;
+        controller.getTeamPost();
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -57,33 +42,33 @@ class _TeamBoardState extends State<TeamBoard> {
               height: MediaQuery.of(context).size.height - 120,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                child: Column(
+                child: Obx(()=> Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        '팀 이름',
+                        getTeamData.teamName!,
                         style: TextStyle(fontSize: 17),
                       ),
                       SizedBox(
                         height: 30,
                       ),
                       ...List.generate(
-                          postList.length,
+                         controller.teamPost.value.length,
                           (index) => GestureDetector(
                                 onTap: () {
-                                  Get.to(Post(), arguments: postList[index]);
+                                  Get.to(Post(), arguments: controller.teamPost.value[index]);
 
                                   // Navigator.push(context,MaterialPageRoute(builder: (_)=>Post()));
                                 },
                                 child: BoardItem(
-                                    title: postList[index].title!,
-                                    nickname: postList[index]
+                                    title: controller.teamPost.value[index].title!,
+                                    nickname: controller.teamPost.value[index]
                                             .currentUser?['userName'] ??
                                         '기본 닉네임',
-                                    date: postList[index].postDate.toString()),
+                                    date: controller.teamPost.value[index].postDate.toString()),
                               )),
                       Container(
                         width: MediaQuery.of(context).size.width,
@@ -104,7 +89,7 @@ class _TeamBoardState extends State<TeamBoard> {
                               children: []),
                         ),
                       )
-                    ]),
+                    ])),
               ),
             ),
           ),

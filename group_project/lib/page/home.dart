@@ -16,9 +16,6 @@ class Home extends GetView<HomeController> {
 
   var controller = Get.put(HomeController());
   Widget _myWork(BuildContext context) {
-
-
-
     return Container(
       child: Obx(() => Column(
             children: [
@@ -28,8 +25,6 @@ class Home extends GetView<HomeController> {
                   Text('나의 할일'),
                   IconButton(
                       onPressed: () {
-     
-
                         Get.to(MyWorkList())!.then((result) {
                           // 이곳에서 돌아왔을 때 처리할 로직
                           if (result == null) {
@@ -46,18 +41,22 @@ class Home extends GetView<HomeController> {
                 height: 8,
               ),
               ...List.generate(
-                  controller.myTask.value.length ,
+                  controller.myTask.value.length,
                   (index) => WorkCard(
-                      teamName: controller.myTask.value[index].teamName!,
-                      description: controller.myTask.value[index].description!,
-                      endDate:
-                          controller.myTask.value[index].endDate!,workType: WorkType.MY_WORK,))
+                        teamName: controller.myTask.value[index].teamName!,
+                        description:
+                            controller.myTask.value[index].description!,
+                        endDate: controller.myTask.value[index].endDate!,
+                        workType: WorkType.MY_WORK,
+                      ))
             ],
           )),
     );
   }
 
   Widget _myTeam(BuildContext context) {
+    // controller.getMyTeam();
+    // print(controller.myTeamMap.value);
     return Column(
       children: [
         Row(
@@ -113,7 +112,8 @@ class Home extends GetView<HomeController> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             SizedBox(
               height: 80,
             ),

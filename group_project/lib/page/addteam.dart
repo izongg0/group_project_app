@@ -26,11 +26,7 @@ class AddTeam extends GetView<AddTeamController> {
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
-          // leading: GestureDetector(
-          //     onTap: () {
-          //       Get.to(App());
-          //     },
-          //     child: Icon(Icons.arrow_back_ios)),
+     
           elevation: 0,
           backgroundColor: Color(0xffF9F8F8),
           title: Text(
@@ -186,7 +182,8 @@ class AddTeam extends GetView<AddTeamController> {
                         height: 30,
                         width: 230,
                         child: TextField(
-                          decoration: InputDecoration(border: InputBorder.none),
+                          
+                          decoration: InputDecoration(border: InputBorder.none,hintText: "  이메일을 작성하고 추가를 누르세요.",hintStyle:TextStyle(fontSize: 13) ),
                           controller: controller.inputMember,
                         )),
                     SizedBox(
