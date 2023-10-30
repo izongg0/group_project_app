@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_project/component/work_widget.dart';
+import 'package:group_project/controller/teamhome_controller.dart';
 import 'package:group_project/page/addschedule.dart';
 
-import '../controller/teamtask_controller.dart';
 import '../model/taskDTO.dart';
 import '../model/teamDTO.dart';
 
-class GroupWork extends GetView<TeamTaskController> {
+class GroupWork extends GetView<TeamHomeController> {
   GroupWork({super.key});
 
   @override
 
-  var controller = Get.put(TeamTaskController());
+  var controller = Get.put(TeamHomeController());
   var getTeamData = Get.arguments as TeamDTO;
   List<TaskDTO> taskList = [];
 
 
   @override
   Widget build(BuildContext context) {
-    controller.currentTeamUid.value = getTeamData.teamUid!;
-    controller.getTeamTask();
+ 
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -50,11 +49,12 @@ class GroupWork extends GetView<TeamTaskController> {
               ),
             ),
             ...List.generate(
-                controller.teamTask.value.length,
+                controller.teamTask.length,
                 (index) => WorkCard(
-                      teamName: controller.teamTask.value[index].teamName!,
-                      description: controller.teamTask.value[index].description!,
-                      endDate: controller.teamTask.value[index].endDate!,
+                      teamName: controller.teamTask[index].teamName!,
+                      worker: controller.teamTask[index].masterName!,
+                      description: controller.teamTask[index].description!,
+                      endDate: controller.teamTask[index].endDate!,
                       workType: WorkType.GROUP_WORK,
                     ))
           ])),

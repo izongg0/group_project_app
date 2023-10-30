@@ -31,6 +31,7 @@ class MyWorkList extends StatelessWidget {
                       (index) => WorkCard(
                           teamName: controller.myTask.value[index].teamName!,
                           description: controller.myTask.value[index].description!,
+                          worker: controller.myTask.value[index].masterName!,
                           endDate:
                               controller.myTask.value[index].endDate!,workType: WorkType.MY_WORK,))   
                                 ]),

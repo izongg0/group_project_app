@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_project/component/board_item.dart';
+import 'package:group_project/controller/teamhome_controller.dart';
 import 'package:group_project/model/postDTO.dart';
 import 'package:group_project/page/addpost.dart';
 
-import '../controller/teampost_controller.dart';
 import '../model/teamDTO.dart';
 import 'post.dart';
 
-class TeamBoard extends GetView<TeamPostController> {
+class TeamBoard extends GetView<TeamHomeController> {
   TeamBoard({super.key});
 
   var getTeamData = Get.arguments as TeamDTO;
-  final controller = Get.put(TeamPostController());
+  final controller = Get.put(TeamHomeController());
   List<PostDTO> postList = [];
 
 
   @override
   Widget build(BuildContext context) {
-    controller.currentTeamUid.value = getTeamData.teamUid!;
-        controller.getTeamPost();
 
     return Scaffold(
       appBar: AppBar(
@@ -56,19 +54,19 @@ class TeamBoard extends GetView<TeamPostController> {
                         height: 30,
                       ),
                       ...List.generate(
-                         controller.teamPost.value.length,
+                         controller.teamPost.length,
                           (index) => GestureDetector(
                                 onTap: () {
-                                  Get.to(Post(), arguments: controller.teamPost.value[index]);
+                                  Get.to(Post(), arguments: controller.teamPost[index]);
 
                                   // Navigator.push(context,MaterialPageRoute(builder: (_)=>Post()));
                                 },
                                 child: BoardItem(
-                                    title: controller.teamPost.value[index].title!,
-                                    nickname: controller.teamPost.value[index]
+                                    title: controller.teamPost[index].title!,
+                                    nickname: controller.teamPost[index]
                                             .currentUser?['userName'] ??
                                         '기본 닉네임',
-                                    date: controller.teamPost.value[index].postDate.toString()),
+                                    date: controller.teamPost[index].postDate.toString()),
                               )),
                       Container(
                         width: MediaQuery.of(context).size.width,

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../model/postDTO.dart';
+import '../model/taskDTO.dart';
 import '../model/teamDTO.dart';
 import '../model/userDTO.dart';
+import '../repository/post_repo.dart';
+import '../repository/task_repo.dart';
 import '../repository/team_repo.dart';
 import 'home_controller.dart';
 
@@ -13,16 +17,27 @@ class TeamHomeController extends GetxController {
   RxList<String> teamMember = RxList<String>();
   TextEditingController inputDesController = TextEditingController();
 
+  RxList<PostDTO> teamPost = RxList<PostDTO>();
+  RxList<TaskDTO> teamTask = RxList<TaskDTO>();
+
   void unfocusKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
   void onInit() async {
-  
     super.onInit();
   }
 
-  
+  Future<void> getTeamPost() async {
+    teamPost(await PostRepo.getTeamPost(thisTeam.value.teamUid!));
+  }
+  Future<List<TaskDTO>> getTeamTask() async {
+    teamTask(await TaskRepo.getTeamTask(thisTeam.value.teamUid!));
+
+
+    return teamTask;
+  }
+
   // 팀 내부 데이터 수정되면 이 함수 실행하면 됨
   Future<void> getTeamFromUid(String teamUid) async {
     thisTeam(await TeamRepo.getTeamfromUid(teamUid));

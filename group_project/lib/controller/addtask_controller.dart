@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:group_project/controller/teamtask_controller.dart';
 import 'package:group_project/model/taskDTO.dart';
 import 'package:group_project/model/teamDTO.dart';
 import 'package:group_project/page/groupwork.dart';
@@ -11,6 +10,7 @@ import '../component/popup_widget.dart';
 import '../model/userDTO.dart';
 import '../repository/team_repo.dart';
 import 'home_controller.dart';
+import 'teamhome_controller.dart';
 
 class AddTaskController extends GetxController {
   Rx<DateTime> endSelectedDate = DateTime.now().obs; // 이거사용
@@ -55,6 +55,8 @@ class AddTaskController extends GetxController {
   }
 
   Future<void> ismake() async {
+    var master = await UserRepo.getCurrentUserDTOByUid();
+
     showDialog(
         context: Get.context!,
         builder: (context) => PopupWidget(
@@ -62,6 +64,7 @@ class AddTaskController extends GetxController {
             okfunc: () async {
               var taskData = TaskDTO(
                 masterUid: auth.currentUser?.uid,
+                masterName: master.userName,
                 teamUid: currentTeam.teamUid,
                 teamName: currentTeam.teamName,
                 description: inputDesController.text,
@@ -70,7 +73,7 @@ class AddTaskController extends GetxController {
 
               await TaskRepo.addTask(taskData);
               Get.find<HomeController>().onInit();
-              Get.find<TeamTaskController>().onInit();
+              Get.find<TeamHomeController>().getTeamTask();
 
               Navigator.pop(context);
 

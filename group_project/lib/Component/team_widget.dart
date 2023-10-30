@@ -89,6 +89,8 @@ class TeamCard extends StatelessWidget {
                       Get.find<TeamHomeController>().teamMember.value =
                           thisTeam.members!;
                       Get.find<TeamHomeController>().thisTeam.value = thisTeam;
+                      Get.find<TeamHomeController>().getTeamPost();
+                      Get.find<TeamHomeController>().getTeamTask();
                     },
                     child: Text(
                       '입장하기',

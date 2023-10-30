@@ -5,6 +5,7 @@ import 'package:group_project/login.dart';
 import 'package:group_project/signup.dart';
 
 import 'firebase_options.dart';
+import 'loading.dart';
 
 // import 'firebase_options.dart';
 
@@ -24,7 +25,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false
 ,
-      home: Login(),
+      home: Loading(),
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TaskDTO {
   final String? masterUid;
+    final String? masterName;
+
   final String? teamUid;
   final String? teamName;
   final String? description;
@@ -12,6 +14,7 @@ class TaskDTO {
 
   TaskDTO(
       {this.masterUid,
+      this.masterName,
       this.teamUid,
       this.teamName,
       this.description,
@@ -22,6 +25,8 @@ class TaskDTO {
   factory TaskDTO.fromJson(Map<String, dynamic> json) {
     return TaskDTO(
       masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
+            masterName: json['masterName'] == null ? '' : json['masterName'] as String,
+
       teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
             teamName: json['teamName'] == null ? '' : json['teamName'] as String,
 
@@ -38,6 +43,8 @@ class TaskDTO {
       QueryDocumentSnapshot<Map<String, dynamic>> json) {
     return TaskDTO(
       masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
+            masterName: json['masterName'] == null ? '' : json['masterName'] as String,
+
       teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
             teamName: json['teamName'] == null ? '' : json['teamName'] as String,
 
@@ -54,6 +61,7 @@ class TaskDTO {
   // 미리 생성된 현재 로그인한 사용자의 정보가 담긴 Post객체에다가 새로 등록할 게시글의 내용을 담아주기 위해서.
   TaskDTO copyWith(
       {String? masterUid,
+      String? masterName,
       String? teamUid,
       String? teamName,
       String? description,
@@ -62,6 +70,8 @@ class TaskDTO {
       }) {
     return TaskDTO(
       masterUid: masterUid ?? this.masterUid,
+            masterName: masterName ?? this.masterName,
+
       teamUid: teamUid ?? this.teamUid,
             teamName: teamName ?? this.teamName,
 
@@ -74,6 +84,8 @@ class TaskDTO {
   Map<String, dynamic> toMap() {
     return {
       'masterUid': masterUid,
+            'masterName': masterName,
+
       'teamUid': teamUid,
       'teamName' : teamName,
       'description': description,

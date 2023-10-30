@@ -4,7 +4,6 @@ import 'package:group_project/controller/home_controller.dart';
 import 'package:group_project/controller/teamhome_controller.dart';
 
 import '../controller/nav_controller.dart';
-import '../controller/teamtask_controller.dart';
 
 class InitBining extends Bindings {
   void dependencies() {
