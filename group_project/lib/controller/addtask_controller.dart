@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_project/model/taskDTO.dart';
 import 'package:group_project/model/teamDTO.dart';
-import 'package:group_project/page/groupwork.dart';
 import 'package:group_project/repository/task_repo.dart';
 import 'package:group_project/repository/user_repo.dart';
-
 import '../component/popup_widget.dart';
-import '../model/userDTO.dart';
-import '../repository/team_repo.dart';
 import 'home_controller.dart';
 import 'teamhome_controller.dart';
 

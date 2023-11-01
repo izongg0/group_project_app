@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:group_project/component/comment_widget.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
 
+import '../controller/teamhome_controller.dart';
 import '../model/postDTO.dart';
 
 class Post extends StatefulWidget {
-   Post({super.key});
+  Post({super.key});
 
   @override
   State<Post> createState() => _PostState();
 }
 
 class _PostState extends State<Post> {
-    var getPostData = Get.arguments as PostDTO ;
+  var getPostData = Get.arguments as PostDTO;
+  var controller = Get.put(TeamHomeController());
 
   Widget _header() {
     return Stack(
@@ -21,7 +24,9 @@ class _PostState extends State<Post> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileImage(animal: getPostData.currentUser!['thumbnail'], type: ProfileType.TYPE1),
+            ProfileImage(
+                animal: getPostData.currentUser!['thumbnail'],
+                type: ProfileType.TYPE1),
             SizedBox(
               width: 20,
             ),
@@ -76,9 +81,7 @@ class _PostState extends State<Post> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(getPostData.content!)
-          ],
+          children: [Text(getPostData.content!)],
         ),
       ),
     );
@@ -88,12 +91,68 @@ class _PostState extends State<Post> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      Row(children: [
-        Icon(Icons.check_circle_outline_rounded,size: 25,),SizedBox(width: 10,),Text('조회한 팀원')
-      ],),
-      SizedBox(height: 15,),
-      ...List.generate(4, (index) => Text('홍길동'))
-    ],);
+        Row(
+          children: [
+            Icon(
+              Icons.check_circle_outline_rounded,
+              size: 25,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text('조회한 팀원')
+          ],
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        ...List.generate(4, (index) => Text('홍길동'))
+      ],
+    );
+  }
+
+  Widget _inputComment() {
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Color(0xffD9D9D9)),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5)),
+          width: Get.width * 0.75,
+          height: 30,
+          child: TextField(
+            controller: controller.inputCtController,
+            decoration: InputDecoration(border: InputBorder.none),
+          ),
+        ),
+        SizedBox(
+          width: 16,
+        ),
+        PurpleButton(
+          ontap: controller.addComment,
+          buttonText: "작성",
+          buttonWidth: 40,
+          buttonHeight: 30,
+          fontSize: 13,
+        )
+      ],
+    );
+  }
+
+  Widget _commentList() {
+    return Obx(()=>Column(
+      children: [
+        ...List.generate(
+            controller.teamComment.length,
+            (index) => CommentWidget(
+                  thumbnail: controller.teamComment[index].userThumb,
+                  nickname: controller.teamComment[index].masterName,
+                  date: controller.teamComment[index].date.toString(),
+                  comment: controller.teamComment[index].comment,
+                ))
+      ],
+    ));
   }
 
   @override
@@ -116,7 +175,9 @@ class _PostState extends State<Post> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               _header(),
               SizedBox(
                 height: 20,
@@ -125,6 +186,11 @@ class _PostState extends State<Post> {
               SizedBox(
                 height: 20,
               ),
+              _commentList(),
+              SizedBox(
+                height: 20,
+              ),
+              _inputComment(),
               // Align(
               //   alignment: Alignment.centerRight,
               //   child: PurpleButton(
@@ -134,7 +200,8 @@ class _PostState extends State<Post> {
               //     buttonHeight: 40,
               //   ),
               // ),
-              // _viewMember()
+              // _viewMember(),
+              SizedBox(height: 300,)
             ],
           ),
         ),

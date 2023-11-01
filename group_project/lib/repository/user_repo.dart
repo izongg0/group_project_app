@@ -92,17 +92,19 @@ class UserRepo {
     }).catchError((error) {
       print("데이터 조회 중 오류 발생: $error");
     });
-_firestore.collection('users').doc(auth.currentUser!.uid).delete()
-    .then((_) {
+    _firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .delete()
+        .then((_) {
       print("팀 삭제 완료.");
-    })
-    .catchError((error) {
+    }).catchError((error) {
       print("팀 삭제 중 오류 발생: $error");
     });
 
-Get.delete<BottomNavController>();
-Get.delete<HomeController>();
- Get.delete<MyPageController>();
+    Get.delete<BottomNavController>();
+    Get.delete<HomeController>();
+    Get.delete<MyPageController>();
 
     auth.currentUser!.delete();
     Navigator.of(context).popUntil((route) => route.isFirst);

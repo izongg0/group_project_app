@@ -58,6 +58,8 @@ class TeamBoard extends GetView<TeamHomeController> {
                           (index) => GestureDetector(
                                 onTap: () {
                                   Get.to(Post(), arguments: controller.teamPost[index]);
+                                  controller.currentPostUid.value = controller.teamPost[index].postUid!;
+                                                Get.find<TeamHomeController>().getComment();
 
                                   // Navigator.push(context,MaterialPageRoute(builder: (_)=>Post()));
                                 },

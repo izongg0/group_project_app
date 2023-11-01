@@ -16,6 +16,7 @@ class ProfileImage extends StatelessWidget {
   Widget _type2() {
     return Container(
       child: Column(
+        
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset('${animal}', width: width),

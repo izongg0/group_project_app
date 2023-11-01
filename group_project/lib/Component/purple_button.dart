@@ -5,12 +5,15 @@ class PurpleButton extends StatelessWidget {
   final String buttonText;
   final double buttonWidth;
   double? buttonHeight;
+    double? fontSize;
+
   PurpleButton(
       {super.key,
       required this.ontap,
       required this.buttonText,
       required this.buttonWidth,
-      this.buttonHeight = 40});
+      this.buttonHeight = 40,
+      this.fontSize = 15});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class PurpleButton extends StatelessWidget {
             ),
         child: TextButton(
           onPressed: ontap,
-          child: Text(buttonText,style: TextStyle(color: Colors.black),),
+          child: Text(buttonText,style: TextStyle(color: Colors.black,fontSize: fontSize),),
         ));
   }
 }

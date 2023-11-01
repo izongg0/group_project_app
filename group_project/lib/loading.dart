@@ -27,8 +27,15 @@ void initState() {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Image.asset('assets/teamPlanner.png',width: 300,)),
+    return GestureDetector(
+      onDoubleTap: (){
+        Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Login()));
+      },
+      child: Scaffold(
+        body: Center(child: Image.asset('assets/teamPlanner.png',width: 300,)),
+      ),
     );
   }
 }

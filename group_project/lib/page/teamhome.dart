@@ -14,7 +14,6 @@ import '../component/popup_widget.dart';
 import '../model/teamDTO.dart';
 import '../model/userDTO.dart';
 import 'editnotice.dart';
-import 'home.dart';
 
 class TeamHome extends StatefulWidget {
   TeamHome({super.key});

@@ -29,7 +29,9 @@ class _SignupState extends State<Signup> {
   final _inputClassnumController = TextEditingController();
 
   String imgNum = 'assets/default_img.png';
-
+void unfocusKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 // Firestore에 사용자 정보 추가 함수
   void addUserDataToFirestore(User user) async {
     var signupUser = UserDTO(
@@ -124,169 +126,178 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF9F8F8),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '이메일',
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffD9D9D9)),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5)),
-              height: 30,
-              child: TextField(
-                controller: _inputEmailController,
-                decoration: InputDecoration(border: InputBorder.none),
+    return GestureDetector(
+      onTap: (){
+        unfocusKeyboard();
+      },
+      child: Scaffold(
+        backgroundColor: Color(0xffF9F8F8),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '이메일',
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              '비밀번호',
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffD9D9D9)),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5)),
-              height: 30,
-              child: TextField(
-                controller: _inputPwController,
-                decoration: InputDecoration(border: InputBorder.none),
+              SizedBox(
+                height: 7,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              '이름',
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffD9D9D9)),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5)),
-              height: 30,
-              child: TextField(
-                controller: _inputNameController,
-                decoration: InputDecoration(border: InputBorder.none),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffD9D9D9)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                height: 30,
+                child: TextField(
+                  controller: _inputEmailController,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              '학교',
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffD9D9D9)),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5)),
-              height: 30,
-              child: TextField(
-                controller: _inputSchoolController,
-                decoration: InputDecoration(border: InputBorder.none),
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              '전공',
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffD9D9D9)),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5)),
-              height: 30,
-              child: TextField(
-                controller: _inputMajorController,
-                decoration: InputDecoration(border: InputBorder.none),
+              Row(
+                children: [
+                  Text(
+                    '비밀번호',
+                  ),SizedBox(width: 15,),Text('6자리 이상 입력해주세요.',style: TextStyle(fontSize: 12,color: Colors.grey),)
+                ],
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              '학번',
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffD9D9D9)),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5)),
-              height: 30,
-              child: TextField(
-                controller: _inputClassnumController,
-                decoration: InputDecoration(border: InputBorder.none),
+              SizedBox(
+                height: 7,
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            _selectProfile(),
-            SizedBox(height: 50),
-            Align(
-                alignment: Alignment.center,
-                child: PurpleButton(
-                    ontap: () {
-                      showDialog(
-                          context: context,
-                          builder: ((context) => PopupWidget(
-                                content: '이메일 인증 후 가입이 완료 됩니다. 가입하시겠습니까?',
-                                okfunc: register,
-                                nofunc: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => Login()));
-                                },
-                              )));
-                      // register();
-                    },
-                    buttonText: '가입',
-                    buttonWidth: 300)),
-            SizedBox(
-              height: 20,
-            ),
-            Align(
-                alignment: Alignment.center,
-                child: PurpleButton(
-                    ontap: () {
-                      Navigator.pop(context);
-                    },
-                    buttonText: '뒤로가기',
-                    buttonWidth: 300)),
-          ],
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffD9D9D9)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                height: 30,
+                child: TextField(
+                  controller: _inputPwController,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                '이름',
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffD9D9D9)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                height: 30,
+                child: TextField(
+                  controller: _inputNameController,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                '학교',
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffD9D9D9)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                height: 30,
+                child: TextField(
+                  controller: _inputSchoolController,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                '전공',
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffD9D9D9)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                height: 30,
+                child: TextField(
+                  controller: _inputMajorController,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                '학번',
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffD9D9D9)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                height: 30,
+                child: TextField(
+                  controller: _inputClassnumController,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              _selectProfile(),
+              SizedBox(height: 50),
+              Align(
+                  alignment: Alignment.center,
+                  child: PurpleButton(
+                      ontap: () {
+                        showDialog(
+                            context: context,
+                            builder: ((context) => PopupWidget(
+                                  content: '이메일 인증 후 가입이 완료 됩니다. 가입하시겠습니까?',
+                                  okfunc: register,
+                                  nofunc: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => Login()));
+                                  },
+                                )));
+                        // register();
+                      },
+                      buttonText: '가입',
+                      buttonWidth: 300)),
+              SizedBox(
+                height: 20,
+              ),
+              Align(
+                  alignment: Alignment.center,
+                  child: PurpleButton(
+                      ontap: () {
+                        Navigator.pop(context);
+                      },
+                      buttonText: '뒤로가기',
+                      buttonWidth: 300)),
+            ],
+          ),
         ),
       ),
     );

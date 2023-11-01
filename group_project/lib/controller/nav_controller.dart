@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
-enum PageName { FIRST, SECOND, THIRD }
+// enum PageName { FIRST, SECOND, THIRD }
+enum PageName { FIRST, THIRD }
 
 class BottomNavController extends GetxController {
   RxInt pageIndex = 0.obs;
@@ -10,7 +11,7 @@ class BottomNavController extends GetxController {
 
     switch (page) {
       case PageName.FIRST:
-      case PageName.SECOND:
+      // case PageName.SECOND:
       case PageName.THIRD:
         _changePage(value);
         break;
