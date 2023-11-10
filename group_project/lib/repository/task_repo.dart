@@ -6,10 +6,16 @@ import 'user_repo.dart';
 
 class TaskRepo {
   static Future<void> addTask(TaskDTO taskData) async {
-    await FirebaseFirestore.instance
-        .collection('tasks')
-        .doc()
-        .set(taskData.toMap());
+    
+
+    var inputData = taskData.toMap();
+    final collectionReference = FirebaseFirestore.instance.collection('tasks');
+
+    final documentReference = await collectionReference.add(inputData);
+    final String documentId = documentReference.id;
+    inputData['taskUid'] = documentId;
+
+    await documentReference.update(inputData);
   }
 
   static Future<List<TaskDTO>> getMyTask() async {
@@ -48,5 +54,14 @@ class TaskRepo {
     return teamTaskList;
   }
 
+  static Future<void> deleteTask(String taskUid) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+    _firestore.collection('tasks').doc(taskUid).delete().then((_) {
+      print("포스트 삭제 완료.");
+    }).catchError((error) {
+      print("포스트 삭제 중 오류 발생: $error");
+      
+    });
+  }
 }

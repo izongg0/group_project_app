@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_project/component/comment_widget.dart';
+import 'package:group_project/component/image_view.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
+import 'package:group_project/component/selectPopup.dart';
+import 'package:intl/intl.dart';
 
 import '../controller/teamhome_controller.dart';
 import '../model/postDTO.dart';
+import '../repository/user_repo.dart';
 
 class Post extends StatefulWidget {
   Post({super.key});
@@ -50,7 +54,8 @@ class _PostState extends State<Post> {
                       width: 15,
                     ),
                     Text(
-                      getPostData.postDate.toString(),
+                      DateFormat('yyyy-MM-dd  HH:mm:ss')
+                          .format(getPostData.postDate!),
                       style: TextStyle(fontSize: 13),
                     )
                   ],
@@ -59,14 +64,28 @@ class _PostState extends State<Post> {
             )
           ],
         ),
-        Positioned(right: 8, top: 5, child: Icon(Icons.more_horiz))
+        if (getPostData.masterUid == auth.currentUser!.uid)
+          Positioned(
+              right: 8,
+              top: 5,
+              child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => SelectPopup(
+                            content: 'dd',
+                            deletefunc: () async {
+                              await controller.deletePost(getPostData.postUid!);
+                            },
+                            updatefunc: () {}));
+                  },
+                  child: Icon(Icons.more_horiz)))
       ],
     );
   }
 
   Widget _postArea() {
     return Container(
-      height: 400,
       width: 400,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
@@ -81,7 +100,13 @@ class _PostState extends State<Post> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(getPostData.content!)],
+          children: [
+            Text(getPostData.content!),
+            SizedBox(
+              height: 50,
+            ),
+            _imageList()
+          ],
         ),
       ),
     );
@@ -140,19 +165,44 @@ class _PostState extends State<Post> {
     );
   }
 
-  Widget _commentList() {
-    return Obx(()=>Column(
+  Widget _imageList() {
+    return Column(
       children: [
         ...List.generate(
-            controller.teamComment.length,
-            (index) => CommentWidget(
-                  thumbnail: controller.teamComment[index].userThumb,
-                  nickname: controller.teamComment[index].masterName,
-                  date: controller.teamComment[index].date.toString(),
-                  comment: controller.teamComment[index].comment,
+            controller.imagePathList.length,
+            (index) => Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
+                  child: GestureDetector(
+                    onTap: (){
+                      Get.to(ImageView(url: controller.imagePathList[index]));
+                    },
+                    child: Image.network(
+                      controller.imagePathList[index],
+                      width: 300.0,
+                      height: 200.0,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ))
       ],
-    ));
+    );
+  }
+
+
+
+  Widget _commentList() {
+    return Obx(() => Column(
+          children: [
+            ...List.generate(
+                controller.teamComment.length,
+                (index) => CommentWidget(
+                      thumbnail: controller.teamComment[index].userThumb,
+                      nickname: controller.teamComment[index].masterName,
+                      date: controller.teamComment[index].date,
+                      comment: controller.teamComment[index].comment,
+                    ))
+          ],
+        ));
   }
 
   @override
@@ -191,6 +241,9 @@ class _PostState extends State<Post> {
                 height: 20,
               ),
               _inputComment(),
+              SizedBox(
+                height: 50,
+              ),
               // Align(
               //   alignment: Alignment.centerRight,
               //   child: PurpleButton(
@@ -201,7 +254,7 @@ class _PostState extends State<Post> {
               //   ),
               // ),
               // _viewMember(),
-              SizedBox(height: 300,)
+              // SizedBox(height: 300,)
             ],
           ),
         ),

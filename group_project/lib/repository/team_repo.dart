@@ -21,6 +21,23 @@ class TeamRepo {
     //     .set(teamData.toMap());
   }
 
+  static Future<void> updateMemberData(
+      String teamUid, List<String> members) async {
+    // Firestore 인스턴스 초기화
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      // 'members' 컬렉션의 문서 이름이 'aaa'인 데이터를 수정
+      await firestore.collection('teams').doc(teamUid).update({
+        'members': members, // 필드 이름과 업데이트할 값으로 변경
+      });
+
+      print('Document updated successfully!');
+    } catch (e) {
+      print('Error updating document: $e');
+    }
+  }
+
   static Future<TeamDTO> getTeamfromUid(String teamUid) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('teams')
@@ -91,12 +108,11 @@ class TeamRepo {
     });
   }
 
-static Future<void> deleteTeam(String teamUid) async {
-        final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static Future<void> deleteTeam(String teamUid) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    Query querypost = _firestore
-        .collection('posts')
-        .where('teamUid', isEqualTo: teamUid);
+    Query querypost =
+        _firestore.collection('posts').where('teamUid', isEqualTo: teamUid);
 
     querypost.get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((document) {
@@ -111,9 +127,8 @@ static Future<void> deleteTeam(String teamUid) async {
       print("데이터 조회 중 오류 발생: $error");
     });
 
-Query querytask = _firestore
-        .collection('tasks')
-        .where('teamUid', isEqualTo: teamUid);
+    Query querytask =
+        _firestore.collection('tasks').where('teamUid', isEqualTo: teamUid);
 
     querytask.get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((document) {
@@ -127,17 +142,13 @@ Query querytask = _firestore
     }).catchError((error) {
       print("데이터 조회 중 오류 발생: $error");
     });
-    
 
-  _firestore.collection('teams').doc(teamUid).delete()
-    .then((_) {
+    _firestore.collection('teams').doc(teamUid).delete().then((_) {
       print("팀 삭제 완료.");
-    })
-    .catchError((error) {
+    }).catchError((error) {
       print("팀 삭제 중 오류 발생: $error");
     });
   }
-
 
 // 문서 업데이트
   void updateData() {}

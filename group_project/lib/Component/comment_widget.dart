@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:group_project/component/profile_widget.dart';
+import 'package:intl/intl.dart';
 
 class CommentWidget extends StatelessWidget {
   String? thumbnail;
   String? nickname;
-  String? date;
+  DateTime? date;
   String? comment;
 
   CommentWidget({
@@ -40,7 +41,7 @@ class CommentWidget extends StatelessWidget {
                 width: 40,
               ),
               Text(
-                date!,
+                DateFormat('yyyy-MM-dd  HH:mm:ss').format(date!),
                 style: TextStyle(fontSize: 13, color: Colors.grey),
               )
             ],

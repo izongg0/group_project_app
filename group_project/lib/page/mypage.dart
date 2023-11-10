@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:group_project/component/popup_widget.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
+import 'package:group_project/login.dart';
 
 import '../controller/mypage_controller.dart';
 import '../model/userDTO.dart';
@@ -64,14 +65,24 @@ class Mypage extends GetView<MyPageController> {
             ],
           ),
           SizedBox(
-            height: 80,
+            height: 180,
+          ),
+          PurpleButton(
+              ontap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => Login()));
+              },
+              buttonText: "로그아웃",
+              buttonWidth: 300),SizedBox(
+            height: 20,
           ),
           PurpleButton(
               ontap: () async {
                 showDialog(
                     context: context,
                     builder: (context) => PopupWidget(
-                        content: '계정삭제\n\n- 본인이 생성한 팀\n- 그 팀에 포함된 모든 게시글 및 과업\n- 본인이 작성한 게시글\n- 본인의 과업\n\n모두 삭제되며 복구 불가능합니다.\n\n정말 계정을 삭제하시겠습니까?',
+                        content:
+                            '계정삭제\n\n- 본인이 생성한 팀\n- 그 팀에 포함된 모든 게시글 및 과업\n- 본인이 작성한 게시글\n- 본인의 과업\n\n모두 삭제되며 복구 불가능합니다.\n\n정말 계정을 삭제하시겠습니까?',
                         okfunc: () async {
                           await UserRepo.deleteUser(context);
                         },

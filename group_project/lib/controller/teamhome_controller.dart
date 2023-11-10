@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:group_project/model/CommentDTO.dart';
 
@@ -23,8 +24,14 @@ class TeamHomeController extends GetxController {
   RxList<PostDTO> teamPost = RxList<PostDTO>();
   RxList<TaskDTO> teamTask = RxList<TaskDTO>();
   RxList<CommentDTO> teamComment = RxList<CommentDTO>();
+  RxList<String> imagePathList = RxList<String>();
+
+  // 멤버 추가
+  TextEditingController inputMember = TextEditingController();
+  RxList<UserDTO> items = RxList<UserDTO>();
+  RxList<String> currentMembers = RxList<String>();
+
   var currentPostUid = "".obs;
-  
 
   var currentUser = UserDTO().obs;
   void unfocusKeyboard() {
@@ -34,6 +41,40 @@ class TeamHomeController extends GetxController {
   void onInit() async {
     currentUser.value = await UserRepo.getCurrentUserDTOByUid();
     super.onInit();
+  }
+
+  Future<void> updateMember(String email) async {
+    var resultSearch = await UserRepo.loadUserListByEmail(email);
+
+    if (resultSearch.isNotEmpty) {
+      if (currentMembers.contains(resultSearch.first.uid)) {
+        Fluttertoast.showToast(
+          msg: "이미 추가한 팀원입니다.",
+          toastLength: Toast
+              .LENGTH_SHORT, // Toast 메시지 표시 시간 설정 (Toast.LENGTH_SHORT 또는 Toast.LENGTH_LONG)
+          gravity:
+              ToastGravity.BOTTOM, // Toast 메시지의 위치 설정 (TOP, CENTER, BOTTOM)
+          timeInSecForIosWeb: 1, // iOS 및 웹 플랫폼에서 Toast 메시지를 표시하는 시간 설정
+          backgroundColor: Colors.black, // 배경색 설정
+          textColor: Colors.white, // 텍스트 색상 설정
+          fontSize: 16.0, // 폰트 크기 설정
+        );
+      } else {
+        currentMembers.add(resultSearch.first.uid!);
+        items.add(resultSearch.first);
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: "존재하지 않는 이메일입니다.",
+        toastLength: Toast
+            .LENGTH_SHORT, // Toast 메시지 표시 시간 설정 (Toast.LENGTH_SHORT 또는 Toast.LENGTH_LONG)
+        gravity: ToastGravity.BOTTOM, // Toast 메시지의 위치 설정 (TOP, CENTER, BOTTOM)
+        timeInSecForIosWeb: 1, // iOS 및 웹 플랫폼에서 Toast 메시지를 표시하는 시간 설정
+        backgroundColor: Colors.black, // 배경색 설정
+        textColor: Colors.white, // 텍스트 색상 설정
+        fontSize: 16.0, // 폰트 크기 설정
+      );
+    }
   }
 
   Future<void> getTeamPost() async {
@@ -85,7 +126,7 @@ class TeamHomeController extends GetxController {
 
   Future<List<UserDTO>> getmembers() async {
     members(await TeamRepo.getTeamMembers(teamMember.value));
-
+    currentMembers.value = teamMember.value;
     return members;
   }
 
@@ -96,5 +137,42 @@ class TeamHomeController extends GetxController {
     // Get.find<TeamHomeController>().onInit();
     getTeamFromUid(thisTeam.value.teamUid!);
     Get.until((route) => Get.currentRoute == '/TeamHome');
+  }
+
+  Future<void> deletePost(String postUid) async {
+    showDialog(
+        context: Get.context!,
+        builder: (context) => PopupWidget(
+            content: '삭제 하시겠습니까?',
+            okfunc: () async {
+              await PostRepo.deletePost(postUid);
+              Get.find<HomeController>().onInit();
+
+              Navigator.pop(context);
+              Get.find<TeamHomeController>().getTeamPost();
+              Navigator.pop(context);
+
+              Get.until((route) => Get.currentRoute == '/TeamBoard');
+            },
+            nofunc: () {
+              Navigator.pop(context);
+            }));
+  }
+
+  Future<void> deleteTask(String taskUid) async {
+    showDialog(
+        context: Get.context!,
+        builder: (context) => PopupWidget(
+            content: '삭제 하시겠습니까?',
+            okfunc: () async {
+              await TaskRepo.deleteTask(taskUid);
+              Get.find<HomeController>().onInit();
+
+              await Get.find<TeamHomeController>().getTeamTask();
+              Navigator.pop(context);
+            },
+            nofunc: () {
+              Navigator.pop(context);
+            }));
   }
 }

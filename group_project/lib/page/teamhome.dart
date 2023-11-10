@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:group_project/component/purple_button.dart';
+import 'package:group_project/component/update_member.dart';
 import 'package:group_project/controller/home_controller.dart';
 import 'package:group_project/controller/teamhome_controller.dart';
 
@@ -70,9 +71,35 @@ class _TeamHomeState extends State<TeamHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Member',
-          style: TextStyle(fontSize: 17),
+        Row(
+          children: [
+            Text(
+              'Member',
+              style: TextStyle(fontSize: 17),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            if (currentTeam.masterUid == auth.currentUser!.uid)
+              GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => UpdateMember(
+                            content: "content",
+                            okfunc: ()async {
+                              await TeamRepo.updateMemberData(currentTeam.teamUid!,
+                                  controller.currentMembers);
+                              await Get.find<TeamHomeController>().getmembers();
+
+                              Navigator.pop(context);
+                            },
+                            nofunc: () {
+                              Navigator.pop(context);
+                            }));
+                  },
+                  child: Icon(Icons.add_box_outlined))
+          ],
         ),
         SizedBox(
           height: 18,
@@ -141,12 +168,9 @@ class _TeamHomeState extends State<TeamHome> {
                                     controller.thisTeam.value.teamUid!);
                                 Get.find<HomeController>().onInit();
                                 Navigator.pop(context);
-                                                                // Navigator.pop(context);
+                                // Navigator.pop(context);
 
-                                Get.until(
-                                    (route) => Get.currentRoute == '/');
-
-                           
+                                Get.until((route) => Get.currentRoute == '/');
                               },
                               nofunc: () {
                                 Navigator.pop(context);

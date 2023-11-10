@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 
 enum WorkType { MY_WORK, GROUP_WORK }
 
@@ -8,6 +10,8 @@ class WorkCard extends StatelessWidget {
   final DateTime endDate;
   String? worker;
   final WorkType workType;
+  bool? ismytask;
+  final Function()? deletefunc;
 
   WorkCard({
     super.key,
@@ -16,6 +20,8 @@ class WorkCard extends StatelessWidget {
     required DateTime this.endDate,
     this.worker = '홍길동',
     required this.workType,
+    this.ismytask = false,
+    this.deletefunc
   });
 
   Widget _mywork() {
@@ -57,19 +63,19 @@ class WorkCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                       if (currentTime.day == endDate.day &&
-                      currentTime.month == endDate.month &&
-                      currentTime.year == endDate.year) ...[
-                    Text('Today',
-                        style: TextStyle(
-                          fontSize: 10,
-                        ))
-                  ] else ...[
-                    Text('마감 ${-(akrka.inDays - 1)}일 전',
-                        style: TextStyle(
-                          fontSize: 10,
-                        )),
-                  ],
+                      if (currentTime.day == endDate.day &&
+                          currentTime.month == endDate.month &&
+                          currentTime.year == endDate.year) ...[
+                        Text('Today',
+                            style: TextStyle(
+                              fontSize: 10,
+                            ))
+                      ] else ...[
+                        Text('마감 ${-(akrka.inDays - 1)}일 전',
+                            style: TextStyle(
+                              fontSize: 10,
+                            )),
+                      ],
                     ],
                   ))
             ],
@@ -82,7 +88,8 @@ class WorkCard extends StatelessWidget {
   Widget _groupWork() {
     var currentTime = DateTime.now();
     var akrka = currentTime.difference(endDate);
-  
+    var dday = -(akrka.inDays - 1);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
       child: Container(
@@ -105,9 +112,22 @@ class WorkCard extends StatelessWidget {
               SizedBox(
                 height: 3,
               ),
-              Text(
-                '담당자 : ${worker}',
-                style: TextStyle(fontSize: 13),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '담당자 : ${worker}',
+                    style: TextStyle(fontSize: 13),
+                  ),
+                  if(ismytask == true)
+                  GestureDetector(
+                    onTap: deletefunc,
+                    child: Text(
+                      'x',
+                      style: TextStyle(fontSize: 20, color: Colors.grey),
+                    ),
+                  )
+                ],
               ),
               SizedBox(
                 height: 7,
@@ -119,7 +139,7 @@ class WorkCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('~ $endDate',
+                  Text('~ ${DateFormat('yyyy-MM-dd  HH:mm:ss').format(endDate)}',
                       style: TextStyle(
                         fontSize: 12,
                       )),
@@ -134,7 +154,13 @@ class WorkCard extends StatelessWidget {
                           fontSize: 12,
                         ))
                   ] else ...[
-                    Text('마감 ${-(akrka.inDays - 1)}일 전',
+                    if(dday < 0)
+                    Text('마감',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ))
+                    else
+                    Text('마감 ${dday}일 전',
                         style: TextStyle(
                           fontSize: 12,
                         )),

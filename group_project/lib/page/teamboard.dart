@@ -4,6 +4,7 @@ import 'package:group_project/component/board_item.dart';
 import 'package:group_project/controller/teamhome_controller.dart';
 import 'package:group_project/model/postDTO.dart';
 import 'package:group_project/page/addpost.dart';
+import 'package:group_project/repository/post_repo.dart';
 
 import '../model/teamDTO.dart';
 import 'post.dart';
@@ -56,11 +57,20 @@ class TeamBoard extends GetView<TeamHomeController> {
                       ...List.generate(
                          controller.teamPost.length,
                           (index) => GestureDetector(
-                                onTap: () {
+                                onTap: () async{
+
+                                  var image = await PostRepo.loadImageUrls(controller.teamPost[index].postUid!);
                                   Get.to(Post(), arguments: controller.teamPost[index]);
                                   controller.currentPostUid.value = controller.teamPost[index].postUid!;
                                                 Get.find<TeamHomeController>().getComment();
 
+                                  if(image.length>0){
+                                  controller.imagePathList.value = image;
+
+
+                                  }else{
+                                    controller.imagePathList.value = [];
+                                  }
                                   // Navigator.push(context,MaterialPageRoute(builder: (_)=>Post()));
                                 },
                                 child: BoardItem(

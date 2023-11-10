@@ -8,7 +8,7 @@ class PostDTO {
   final String? title;
   final String? content;
   final DateTime? postDate;
-  final List<String>? viewMember;
+  final List<String>? imageList;
   final Map<String, dynamic>? currentUser; // currentUser 변수 추가
 
   PostDTO({
@@ -19,23 +19,25 @@ class PostDTO {
     this.title,
     this.content,
     this.postDate,
-    this.viewMember,
+    this.imageList,
     this.currentUser, // currentUser 변수 추가
   });
 
   factory PostDTO.fromJson(Map<String, dynamic> json) {
-  return PostDTO(
-    masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
-    teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
-    postUid: json['postUid'] == null ? '' : json['postUid'] as String,
-    title: json['title'] == null ? '' : json['title'] as String,
-    teamName: json['teamName'] == null ? '' : json['teamName'] as String,
-    content: json['content'] == null ? '' : json['content'] as String,
-    postDate: json['postDate'] == null ? DateTime.now() : json['postDate'].toDate(),
-    viewMember: json['viewMember'] == null ? [] : List<String>.from(json['viewMember']),
-    currentUser: json['currentUser'], // currentUser 변수 추가
-  );
-}
+    return PostDTO(
+      masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
+      teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
+      postUid: json['postUid'] == null ? '' : json['postUid'] as String,
+      title: json['title'] == null ? '' : json['title'] as String,
+      teamName: json['teamName'] == null ? '' : json['teamName'] as String,
+      content: json['content'] == null ? '' : json['content'] as String,
+      postDate:
+          json['postDate'] == null ? DateTime.now() : json['postDate'].toDate(),
+      imageList:
+          json['imageList'] == null ? [] : List<String>.from(json['imageList']),
+      currentUser: json['currentUser'], // currentUser 변수 추가
+    );
+  }
 
   factory PostDTO.DtofromJson(
       QueryDocumentSnapshot<Map<String, dynamic>> json) {
@@ -48,11 +50,9 @@ class PostDTO {
       content: json['content'] == null ? '' : json['content'] as String,
       postDate:
           json['postDate'] == null ? DateTime.now() : json['postDate'].toDate(),
-      viewMember: json['viewMember'] == null
-          ? []
-          : List<String>.from(json['viewMember']),
-              currentUser: json['currentUser'], // currentUser 변수 추가
-
+      imageList:
+          json['imageList'] == null ? [] : List<String>.from(json['imageList']),
+      currentUser: json['currentUser'], // currentUser 변수 추가
     );
   }
 
@@ -65,7 +65,7 @@ class PostDTO {
       String? title,
       String? content,
       DateTime? postDate,
-      List<String>? viewMember}) {
+      List<String>? imageList}) {
     return PostDTO(
       masterUid: masterUid ?? this.masterUid,
       teamUid: teamUid ?? this.teamUid,
@@ -74,7 +74,7 @@ class PostDTO {
       title: title ?? this.title,
       content: content ?? this.content,
       postDate: postDate ?? this.postDate,
-      viewMember: viewMember ?? this.viewMember,
+      imageList: imageList ?? this.imageList,
     );
   }
 
@@ -87,7 +87,7 @@ class PostDTO {
       'teamName': teamName,
       'content': content,
       'postDate': postDate,
-      'viewMember': viewMember,
+      'imageList': imageList,
       'currentUser': currentUser, // currentUser 변수 추가
     };
   }

@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TaskDTO {
   final String? masterUid;
-    final String? masterName;
+  final String? masterName;
+  final String? taskUid;
 
   final String? teamUid;
   final String? teamName;
@@ -10,26 +11,24 @@ class TaskDTO {
   final DateTime? endDate;
   List<String>? members;
 
-
-
   TaskDTO(
       {this.masterUid,
       this.masterName,
+      this.taskUid,
       this.teamUid,
       this.teamName,
       this.description,
       this.endDate,
-      this.members
-      });
+      this.members});
 
   factory TaskDTO.fromJson(Map<String, dynamic> json) {
     return TaskDTO(
       masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
-            masterName: json['masterName'] == null ? '' : json['masterName'] as String,
-
+      masterName:
+          json['masterName'] == null ? '' : json['masterName'] as String,
+      taskUid: json['taskUid'] == null ? '' : json['taskUid'] as String,
       teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
-            teamName: json['teamName'] == null ? '' : json['teamName'] as String,
-
+      teamName: json['teamName'] == null ? '' : json['teamName'] as String,
       description:
           json['description'] == null ? '' : json['description'] as String,
       endDate:
@@ -43,11 +42,11 @@ class TaskDTO {
       QueryDocumentSnapshot<Map<String, dynamic>> json) {
     return TaskDTO(
       masterUid: json['masterUid'] == null ? '' : json['masterUid'] as String,
-            masterName: json['masterName'] == null ? '' : json['masterName'] as String,
-
+      masterName:
+          json['masterName'] == null ? '' : json['masterName'] as String,
+      taskUid: json['taskUid'] == null ? '' : json['taskUid'] as String,
       teamUid: json['teamUid'] == null ? '' : json['teamUid'] as String,
-            teamName: json['teamName'] == null ? '' : json['teamName'] as String,
-
+      teamName: json['teamName'] == null ? '' : json['teamName'] as String,
       description:
           json['description'] == null ? '' : json['description'] as String,
       endDate:
@@ -57,7 +56,6 @@ class TaskDTO {
     );
   }
 
-
   // 미리 생성된 현재 로그인한 사용자의 정보가 담긴 Post객체에다가 새로 등록할 게시글의 내용을 담아주기 위해서.
   TaskDTO copyWith(
       {String? masterUid,
@@ -66,15 +64,12 @@ class TaskDTO {
       String? teamName,
       String? description,
       DateTime? endDate,
-      List<String>? members
-      }) {
+      List<String>? members}) {
     return TaskDTO(
       masterUid: masterUid ?? this.masterUid,
-            masterName: masterName ?? this.masterName,
-
+      masterName: masterName ?? this.masterName,
       teamUid: teamUid ?? this.teamUid,
-            teamName: teamName ?? this.teamName,
-
+      teamName: teamName ?? this.teamName,
       description: description ?? this.description,
       endDate: endDate ?? this.endDate,
       members: members ?? this.members,
@@ -84,14 +79,13 @@ class TaskDTO {
   Map<String, dynamic> toMap() {
     return {
       'masterUid': masterUid,
-            'masterName': masterName,
-
+      'masterName': masterName,
+      'taskUid': taskUid,
       'teamUid': teamUid,
-      'teamName' : teamName,
+      'teamName': teamName,
       'description': description,
       'endDate': endDate,
-      'members': members, 
+      'members': members,
     };
   }
 }
-
