@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:group_project/app.dart';
 import 'package:group_project/main.dart';
 import 'package:group_project/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'controller/home_controller.dart';
 import 'controller/mypage_controller.dart';
@@ -29,6 +30,26 @@ class _LoginState extends State<Login> {
 
   final _inputPwdController = TextEditingController();
 
+  @override
+  void initState() {
+    _loadSavedId();
+    super.initState();
+  }
+  String save_id = "";
+
+  _loadSavedId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _inputEmailController.text = prefs.getString('saved_id') ?? "";
+    });
+  }
+
+
+  _saveId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('saved_id', id);
+  }
+
   void login() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -50,7 +71,7 @@ class _LoginState extends State<Login> {
             Get.delete<BottomNavController>();
             Get.delete<HomeController>();
             Get.delete<MyPageController>();
-          }else{
+          } else {
             Get.delete<BottomNavController>();
             Get.delete<HomeController>();
             Get.delete<MyPageController>();
@@ -147,6 +168,7 @@ class _LoginState extends State<Login> {
             ),
             ElevatedButton(
                 onPressed: () {
+                  _saveId(_inputEmailController.text);
                   login();
                 },
                 child: Text('로그인'),

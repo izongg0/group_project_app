@@ -78,7 +78,7 @@ class TeamBoard extends GetView<TeamHomeController> {
                                     nickname: controller.teamPost[index]
                                             .currentUser?['userName'] ??
                                         '기본 닉네임',
-                                    date: controller.teamPost[index].postDate.toString()),
+                                    date: controller.teamPost[index].postDate!),
                               )),
                       Container(
                         width: MediaQuery.of(context).size.width,

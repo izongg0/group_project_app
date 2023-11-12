@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../page/post.dart';
 
 class BoardItem extends StatelessWidget {
   String title;
   String nickname;
-  String date;
+  DateTime date;
 
    BoardItem({super.key,
     required this.title,
@@ -32,7 +33,8 @@ class BoardItem extends StatelessWidget {
           Row(children: [
       
             Text(nickname,style: TextStyle(fontSize: 12),),SizedBox(width: 8,),Text('∙'),SizedBox(width: 8,),
-            Text(date,style: TextStyle(fontSize: 12),)
+            Text(                DateFormat('yyyy-MM-dd  HH:mm:ss').format(date)
+,style: TextStyle(fontSize: 12),)
           ],)
       
         ]),

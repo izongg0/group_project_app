@@ -117,6 +117,25 @@ class TeamHomeController extends GetxController {
             }));
   }
 
+Future<void> deleteComment(String commentUid) async {
+    showDialog(
+        context: Get.context!,
+        builder: (context) => PopupWidget(
+            content: '삭제 하시겠습니까?',
+            okfunc: () async {
+              await PostRepo.deleteComment(commentUid);
+              getComment();
+
+              Navigator.pop(context);
+
+            },
+            nofunc: () {
+              Navigator.pop(context);
+            }));
+  }
+
+
+
   // 팀 내부 데이터 수정되면 이 함수 실행하면 됨
   Future<void> getTeamFromUid(String teamUid) async {
     thisTeam(await TeamRepo.getTeamfromUid(teamUid));
@@ -127,6 +146,7 @@ class TeamHomeController extends GetxController {
   Future<List<UserDTO>> getmembers() async {
     members(await TeamRepo.getTeamMembers(teamMember.value));
     currentMembers.value = teamMember.value;
+    items.value = members.value;
     return members;
   }
 

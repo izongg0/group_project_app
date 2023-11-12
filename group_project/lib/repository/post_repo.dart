@@ -94,7 +94,16 @@ static Future<List<String>> loadImageUrls(String teamUid) async {
     }
   }
 
+static Future<void> deleteComment(String commentUid) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+    _firestore.collection('comments').doc(commentUid).delete().then((_) {
+      print("댓글 삭제 완료.");
+    }).catchError((error) {
+      print("댓글 삭제 중 오류 발생: $error");
+      
+    });
+  }
 
   static Future<List<PostDTO>> getTeamPost(String teamUid) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance

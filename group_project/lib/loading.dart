@@ -34,7 +34,7 @@ void initState() {
         MaterialPageRoute(builder: (context) => Login()));
       },
       child: Scaffold(
-        body: Center(child: Image.asset('assets/teamPlanner.png',width: 300,)),
+        body: Center(child: Image.asset('assets/teamPlanner.png',width: 100,)),
       ),
     );
   }

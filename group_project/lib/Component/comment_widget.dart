@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:group_project/component/profile_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -7,6 +8,9 @@ class CommentWidget extends StatelessWidget {
   String? nickname;
   DateTime? date;
   String? comment;
+  String? commentuid;
+  String? myuid;
+  final Function()? deleteComment;
 
   CommentWidget({
     super.key,
@@ -14,6 +18,9 @@ class CommentWidget extends StatelessWidget {
     this.nickname,
     this.date,
     this.comment,
+    this.commentuid,
+    this.myuid,
+    this.deleteComment
   });
 
   @override
@@ -43,7 +50,12 @@ class CommentWidget extends StatelessWidget {
               Text(
                 DateFormat('yyyy-MM-dd  HH:mm:ss').format(date!),
                 style: TextStyle(fontSize: 13, color: Colors.grey),
-              )
+              ),
+              SizedBox(width: 50,),
+              if(commentuid == myuid)
+              GestureDetector(
+                onTap: deleteComment,
+                child: Text('x',style: TextStyle(fontSize: 20,color: Colors.grey),))
             ],
           ),
           SizedBox(
@@ -52,7 +64,8 @@ class CommentWidget extends StatelessWidget {
           Row(
             children: [
               SizedBox(width: 40,),
-              Text(comment!),
+              Container(        width: Get.width*0.7,
+child: Text(comment!)),
             ],
           ),
         ]),

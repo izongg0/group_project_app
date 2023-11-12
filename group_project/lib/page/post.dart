@@ -145,9 +145,12 @@ class _PostState extends State<Post> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(5)),
           width: Get.width * 0.75,
-          height: 30,
+          // height: 40,
           child: TextField(
+          
             controller: controller.inputCtController,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
             decoration: InputDecoration(border: InputBorder.none),
           ),
         ),
@@ -173,7 +176,7 @@ class _PostState extends State<Post> {
             (index) => Padding(
                   padding: const EdgeInsets.only(bottom: 15.0),
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Get.to(ImageView(url: controller.imagePathList[index]));
                     },
                     child: Image.network(
@@ -188,8 +191,6 @@ class _PostState extends State<Post> {
     );
   }
 
-
-
   Widget _commentList() {
     return Obx(() => Column(
           children: [
@@ -200,6 +201,11 @@ class _PostState extends State<Post> {
                       nickname: controller.teamComment[index].masterName,
                       date: controller.teamComment[index].date,
                       comment: controller.teamComment[index].comment,
+                      commentuid: controller.teamComment[index].masterUid,
+                      myuid: auth.currentUser!.uid,
+                      deleteComment: ()async {
+                        await controller.deleteComment(controller.teamComment[index].commentUid!);
+                      },
                     ))
           ],
         ));
