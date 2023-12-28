@@ -9,7 +9,9 @@
 **조별과제 관리 앱(TeamPlanner)** 은 대학생들을 위한 도구로, 조별 프로젝트를 효율적으로 계획하고 관리할 수 있는 최고의 동반자입니다.이 앱은 여러분의 학업 생활을 보다 효율적으로 조직하고 관리할 수 있도록 도와줍니다.
 <br><br>
 
-
+## 사용 기술
+Flutter<br>
+Firebase
 
 ## **주요 기능**
 
@@ -60,6 +62,8 @@ TeamPlanner는 이러한 단점을 극복하여 사용자에게 더 나은 경�
 - **깔끔한 관리**: 프로젝트가 완료되면 삭제하여 과제 관리를 깔끔하게 유지하세요.
 
 ### **TeamPlanner는 학업을 조직적으로 관리**하고 **팀원 간 협업을 강화**하기 위한 필수 도구입니다. 지금 바로 다운로드하여 효율적인 학업을 경험하세요!
+
+### [앱스토어 다운로드](https://apps.apple.com/kr/app/%ED%8C%80%ED%94%8C%EB%9E%98%EB%84%88-teamplanner-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9D%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B4%80%EB%A6%AC/id6470455290)
 <br>
 
 ![Untitled](https://github.com/izongg0/group_project_app/assets/108528803/36d36ae9-45c4-43b5-920c-27ce2a54e38f)
